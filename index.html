@@ -280,7 +280,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <p>Built for $0: a static GitHub Pages site, a free hourly GitHub Action that samples Bluesky, and keyless public APIs. No GDELT, no paid services.</p>
     </div>
   </section>
-  <footer class="lbl"><span>© 2026 Smrita Jain</span><span id="foot">Checking sources…</span></footer>
+  <footer class="lbl"><span>© 2026 Smrita Jain</span></footer>
 </div>
 <div class="toast" id="toast" hidden></div>
 
@@ -564,7 +564,7 @@ function refresh(){
   $('#facts').innerHTML=facts().map(f=>`<li>${f.replace(/</g,'&lt;')}</li>`).join('');
   $('#tbody').innerHTML=series(state.src,30).slice().reverse().map(d=>`<tr><td>${d.label}${d.today?' (today)':''}</td><td>${fmt(d.ai)}</td><td>${fmt(d.si)}</td><td>${ratioTxt(d.ai,d.si)}</td></tr>`).join('');
   cards();
-  const stat=Object.entries(store).map(([k,v])=>`${SRC[k].name}: ${v.status}`).join(' · ');$('#foot').textContent=stat;
+
 }
 function spark(vals){const v=vals.map(x=>x??0);const m=Math.max(1,...v);const n=v.length;return v.map((y,i)=>`${(i/(n-1||1)*100).toFixed(1)},${(36-y/m*32).toFixed(1)}`).join(' ')}
 function cards(){$('#cards').innerHTML=Object.keys(SRC).map(k=>{const s=series(k,14),st=store[k];const last=s.filter(d=>d.ai!=null).at(-1)||{};
