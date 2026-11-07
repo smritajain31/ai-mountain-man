@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AI Mountain Man</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="A tiny 8-bit robot jumps across daily mountains of how often the world writes, searches and talks about artificial intelligence vs superintelligence.">
+<meta name="description" content="A tiny 8-bit robot jumps across daily mountains of how often the world writes, searches and talks about artificial intelligence vs super intelligence.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Press+Start+2P&family=Silkscreen&display=swap">
@@ -191,10 +191,10 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <p class="sentence" id="sentence2">times by people around the world.</p>
       <p class="sub" id="tickerNote" style="margin-top:12px">Loading the latest counts…</p>
     </div>
-    <div class="duel" aria-label="Artificial intelligence versus superintelligence today">
+    <div class="duel" aria-label="Artificial intelligence versus super intelligence today">
       <div class="lbl">Leaderboard</div>
       <div class="duel-row"><span class="sw"></span><span>Artificial intelligence</span><b class="num" id="dAI">—</b></div>
-      <div class="duel-row"><span class="sw si"></span><span>Superintelligence</span><b class="num" id="dSI">—</b></div>
+      <div class="duel-row"><span class="sw si"></span><span>Super intelligence</span><b class="num" id="dSI">—</b></div>
       <div class="bar" aria-hidden="true"><span id="dBar" style="width:50%"></span></div>
       <div><div class="ratio num" id="dRatio">— : 1</div><div class="sub" id="dRatioNote">AI mentions for every one SI mention</div></div>
     </div>
@@ -219,7 +219,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <div class="hide-s"><small id="hWorldL">World</small><span id="hDay">—</span></div>
       <div class="hide-s"><small>Time UTC</small><span id="hTime">—</span></div>
     </div>
-    <canvas id="scene" tabindex="0" role="img" aria-label="Pixel robot jumping across daily mountains. Black mountains are artificial intelligence, checkered mountains are superintelligence. Tap a mountain to inspect a day."></canvas>
+    <canvas id="scene" tabindex="0" role="img" aria-label="Pixel robot jumping across daily mountains. Black mountains are artificial intelligence, checkered mountains are super intelligence. Tap a mountain to inspect a day."></canvas>
     <div class="deck">
       <div class="ctl"><span>Language</span><div class="seg" id="segRegion"><button type="button" data-v="world">All</button><button type="button" data-v="en">English</button></div></div>
       <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="wiki">1 · Wiki</button><button type="button" data-v="sky">2 · Bluesky</button><button type="button" data-v="hn">3 · Hacker News</button></div></div>
@@ -236,7 +236,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <h2 id="inTitle">The robot is standing on today</h2>
       <dl class="kv">
         <div><dt>Artificial intelligence</dt><dd class="num" id="inAI">—</dd></div>
-        <div><dt>Superintelligence</dt><dd class="num" id="inSI">—</dd></div>
+        <div><dt>Super intelligence</dt><dd class="num" id="inSI">—</dd></div>
         <div><dt>Ratio AI : SI</dt><dd class="num" id="inRatio">—</dd></div>
         <div><dt id="inChangeL">AI vs day before</dt><dd class="num" id="inChange">—</dd></div>
       </dl>
@@ -256,7 +256,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
 
   <details id="dataBox">
     <summary>Daily counts for this level</summary>
-    <div class="tbl"><table><thead><tr><th>Day (UTC)</th><th>Artificial intelligence</th><th>Superintelligence</th><th>AI : SI</th></tr></thead><tbody id="tbody"></tbody></table></div>
+    <div class="tbl"><table><thead><tr><th>Day (UTC)</th><th>Artificial intelligence</th><th>Super intelligence</th><th>AI : SI</th></tr></thead><tbody id="tbody"></tbody></table></div>
     <div class="tbl-actions"><button class="btn" id="copyCsv" type="button">Copy as CSV</button><button class="btn" id="dlCsv" type="button">Download CSV</button></div>
   </details>
 
@@ -271,6 +271,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <ul>
         <li><b>1 · Wiki</b> counts human page views of the English Wikipedia articles <i>Artificial intelligence</i> and <i>Superintelligence</i> (<a href="https://wikimedia.org/api/rest_v1/" target="_blank" rel="noopener">Wikimedia API</a>). Counts arrive a day late and have no country split.</li>
         <li><b>2 · Bluesky</b> counts new public Bluesky posts that use each term, from the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed. A free GitHub Action listens for 30 minutes every hour and turns that sample into daily estimates. English uses each post’s language tag. The live wire also watches new public posts while this page is open and pauses when the tab is hidden.</li>
+        <li><b>Spelling</b>: since September 2026 the term is written as two words, “super intelligence.” Every count includes both spellings: super intelligence, super-intelligence and superintelligence.</li>
         <li><b>3 · Hacker News</b> counts Hacker News posts and comments, via <a href="https://hn.algolia.com/" target="_blank" rel="noopener">Hacker News Search by Algolia</a>. Global only. The live wire checks for new items every 15 seconds while this page is open and pauses when the tab is hidden.</li>
       </ul>
     </div>
@@ -333,7 +334,7 @@ let hnBusy=false;
 async function loadHN(onlyToday){
   if(hnBusy||store.hn.status==='sample')return;hnBusy=true;
   try{const ser=store.hn.series.world;const tk=todayKey();const keys=onlyToday?[tk]:lastKeys(30).filter(k=>k===tk||!ser[k]||ser[k].ai==null);
-    const jobs=keys.flatMap(k=>[()=>hnCount('"artificial intelligence"',k),()=>hnCount('"superintelligence"',k)]);
+    const jobs=keys.flatMap(k=>[()=>hnCount('"artificial intelligence"',k),()=>Promise.all([hnCount('"superintelligence"',k),hnCount('"super intelligence"',k)]).then(([x,y])=>x+y)]);
     const r=await pool(jobs,6);let ok=0;
     keys.forEach((k,i)=>{const a=r[i*2],b=r[i*2+1];if(a.ok||b.ok)ok++;ser[k]={ai:a.ok?a.v:(ser[k]?.ai??null),si:b.ok?b.v:(ser[k]?.si??null)}});
     if(!ok&&store.hn.status!=='live')throw Error('none');
@@ -393,9 +394,9 @@ setThemeBtn();
 /* toast + share + csv */
 let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2200)}
 async function copy(text,ok){try{await navigator.clipboard.writeText(text);toast(ok)}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();let done=false;try{done=document.execCommand('copy')}catch(_){}ta.remove();toast(done?ok:'Copy blocked here — select the text manually')}}
-$('#shareBtn').onclick=async()=>{const s=series(),t=s.at(-1);const text=`Today on AI Mountain Man: "artificial intelligence" ${compact(t.ai)} vs "superintelligence" ${compact(t.si)} (${SRC[state.src].full}, ${regOf(state.src)==='en'?'English':'all languages'}).`;
+$('#shareBtn').onclick=async()=>{const s=series(),t=s.at(-1);const text=`Today on AI Mountain Man: "artificial intelligence" ${compact(t.ai)} vs "super intelligence" ${compact(t.si)} (${SRC[state.src].full}, ${regOf(state.src)==='en'?'English':'all languages'}).`;
   try{if(navigator.share){await navigator.share({title:'AI Mountain Man',text,url:location.href});return}}catch(e){if(e&&e.name==='AbortError')return}copy(text+' '+location.href,'Link copied')};
-function csv(){const s=series(state.src,30);return ['date_utc,artificial_intelligence,superintelligence,source,region'].concat(s.map(d=>[d.key,d.ai??'',d.si??'',SRC[state.src].full,regOf(state.src)].join(','))).join('\n')}
+function csv(){const s=series(state.src,30);return ['date_utc,artificial_intelligence,super_intelligence,source,region'].concat(s.map(d=>[d.key,d.ai??'',d.si??'',SRC[state.src].full,regOf(state.src)].join(','))).join('\n')}
 $('#copyCsv').onclick=()=>copy(csv(),'CSV copied');
 $('#dlCsv').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv()],{type:'text/csv'}));a.download=`ai-mountain-${state.src}-${regOf(state.src)}.csv`;document.body.appendChild(a);a.click();a.remove();toast('Downloading CSV')}catch(e){copy(csv(),'CSV copied')}};
 
@@ -516,10 +517,10 @@ cv.addEventListener('keydown',e=>{const n=world.wps.length-1;
 function inspectLine(i){const d=world.days[i];if(!d)return '';return `${d.today?'TODAY':d.label}: AI ${compact(d.ai)} · SI ${compact(d.si)} · ${ratioTxt(d.ai,d.si)}`}
 function facts(){const s=series(),full=s.filter(d=>!d.today&&d.ai!=null);const out=[];if(!full.length)return ['Waiting for the first full day of data.'];
   const peak=full.reduce((a,b)=>b.ai>a.ai?b:a);out.push(`Biggest AI day: ${peak.label} with ${fmt(peak.ai)} ${SRC[state.src].unit}.`);
-  const sp=full.filter(d=>d.si!=null);if(sp.length){const p2=sp.reduce((a,b)=>b.si>a.si?b:a);out.push(`Biggest superintelligence day: ${p2.label} with ${fmt(p2.si)}.`)}
-  const A=full.reduce((t,d)=>t+(d.ai||0),0),S=full.reduce((t,d)=>t+(d.si||0),0);if(S>0)out.push(`Across ${full.length} full days, AI was mentioned ${ratioTxt(A,S).replace(' : 1','')} times for every one superintelligence mention.`);
+  const sp=full.filter(d=>d.si!=null);if(sp.length){const p2=sp.reduce((a,b)=>b.si>a.si?b:a);out.push(`Biggest super intelligence day: ${p2.label} with ${fmt(p2.si)}.`)}
+  const A=full.reduce((t,d)=>t+(d.ai||0),0),S=full.reduce((t,d)=>t+(d.si||0),0);if(S>0)out.push(`Across ${full.length} full days, AI was mentioned ${ratioTxt(A,S).replace(' : 1','')} times for every one super intelligence mention.`);
   if(full.length>=6){const h=Math.floor(full.length/2),a1=full.slice(0,h),a2=full.slice(-h);const avg=(arr,f)=>arr.reduce((t,d)=>t+(d[f]||0),0)/arr.length;const ch=f=>{const x=avg(a1,f),y=avg(a2,f);return x?Math.round((y-x)/x*100):null};const ca=ch('ai'),cs=ch('si');
-    if(ca!=null)out.push(`Recent days vs earlier days: AI ${ca>=0?'+':''}${ca}%, superintelligence ${cs==null?'n/a':(cs>=0?'+':'')+cs+'%'}.`)}
+    if(ca!=null)out.push(`Recent days vs earlier days: AI ${ca>=0?'+':''}${ca}%, super intelligence ${cs==null?'n/a':(cs>=0?'+':'')+cs+'%'}.`)}
   const wk=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w===0||w===6}),wd=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w>0&&w<6});
   if(wk.length&&wd.length){const a=wk.reduce((t,d)=>t+d.ai,0)/wk.length,b=wd.reduce((t,d)=>t+d.ai,0)/wd.length;if(b)out.push(`Weekends run ${Math.abs(Math.round((a-b)/b*100))}% ${a<b?'quieter':'busier'} than weekdays for AI.`)}
   if(state.src==='sky'&&store.sky.langs){const L=store.sky.langs[todayKey()]||store.sky.langs[Object.keys(store.sky.langs).sort().at(-1)];if(L){const top=Object.entries(L).filter(([k])=>k!=='unknown').sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k])=>langName(k));if(top.length)out.push(`Top languages for these posts lately: ${top.join(', ')}.`)}}

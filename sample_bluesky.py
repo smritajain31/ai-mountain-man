@@ -143,7 +143,7 @@ def main():
     tmp = OUT + '.tmp'
     with open(tmp, 'w', encoding='utf-8') as f:
         json.dump({'source': 'Bluesky Jetstream (sampled)', 'updated_at': datetime.now(timezone.utc).isoformat(),
-                   'timezone': 'UTC', 'terms': {'ai': 'artificial intelligence', 'si': 'superintelligence'},
+                   'timezone': 'UTC', 'terms': {'ai': 'artificial intelligence', 'si': 'super intelligence (any spelling)'},
                    'hours': data['hours'], 'langs': data['langs']}, f, separators=(',', ':'))
     os.replace(tmp, OUT)
     print(f"Saved {len(data['hours'])} hours")
