@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WJ75PWC395"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WJ75PWC395');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>AI Mountain Man</title>
@@ -281,7 +289,13 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
       <p>Built for $0: a static GitHub Pages site, a free hourly GitHub Action that samples Bluesky, and keyless public APIs. No GDELT, no paid services.</p>
     </div>
   </section>
-  <footer class="lbl"><span>© 2026 Smrita Jain</span></footer>
+  <footer class="lbl"><span>© 2026 Smrita Jain</span><span id="visit-counter" hidden></span></footer>
+<script>
+  fetch('https://countapi.mileshilliard.com/api/v1/hit/smritajain31_ai_mountain_man_page_views_2026', {cache:'no-store'})
+    .then(response => { if (!response.ok) throw new Error('Counter unavailable'); return response.json(); })
+    .then(data => { const n = Number(data.value); if (!Number.isSafeInteger(n) || n < 0) return; const counter = document.getElementById('visit-counter'); counter.textContent = 'Page views: ' + n.toLocaleString('en-US'); counter.hidden = false; })
+    .catch(() => {});
+</script>
 </div>
 <div class="toast" id="toast" hidden></div>
 
