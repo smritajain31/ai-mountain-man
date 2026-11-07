@@ -374,7 +374,7 @@ function paceRate(src){const ser=store[src].series[regOf(src)]||{};const tk=toda
 function setSeg(id,val){document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(val))))}
 function bindSeg(id,key,cast=v=>v){document.querySelectorAll('#'+id+' button').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;state[key]=cast(b.dataset.v);state.pin=null;blip(660,.05);syncUI();buildWorld();refresh()}))}
 bindSeg('segRegion','region');bindSeg('segSrc','src');bindSeg('segRange','range',Number);bindSeg('segScale','scale');
-function writeHash(){const h=`${state.src}-${state.region}-${state.range}-${state.scale}`;try{history.replaceState(null,'','#'+h)}catch(e){}}
+function writeHash(){if(location.hash)try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}}
 function syncUI(){setSeg('segRegion',state.region);setSeg('segSrc',state.src);setSeg('segRange',state.range);setSeg('segScale',state.scale);
   $('#playBtn').textContent=state.playing?'❚❚':'▶';$('#playBtn').setAttribute('aria-label',state.playing?'Pause':'Play');
   $('#speedBtn').textContent=state.speed+'×';$('#soundBtn').textContent=state.sound?'♪ On':'♪ Off';$('#soundBtn').setAttribute('aria-pressed',String(state.sound));writeHash()}
