@@ -1,0 +1,36 @@
+name: Update news data and publish
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore previous published data if available
+        run: |
+          mkdir -p data
+          curl --fail --silent --show-error --location --max-time 30 'https://smritajain31.github.io/ai-mountain-man/data/gdelt.json' -o data/gdelt.json.tmp || true
+          if python3 -c 'import json; d=json.load(open("data/gdelt.json.tmp")); assert d.get("days") and d.get("updated_at")' 2>/dev/null; then mv data/gdelt.json.tmp data/gdelt.json; else rm -f data/gdelt.json.tmp; fi
+      - name: Fetch GDELT news counts
+        run: python3 fetch_gdelt.py || echo 'Update unavailable; preserving last available data.'
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - id: deployment
+        uses: actions/deploy-pages@v4
