@@ -1,8 +1,650 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Mountain Man — The word trail</title><style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');*{box-sizing:border-box}body{margin:0;background:#f6f5ef;color:#161616;font-family:'Space Grotesk',Arial,sans-serif}.wrap{max-width:1600px;margin:auto;padding:0 5%}header{height:76px;border-bottom:1px solid #bdbdb5;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:700;letter-spacing:-.05em;font-size:22px}.brand span{margin-right:8px}.mono{font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em;font-size:10px}.pill{border:1px solid #191919;border-radius:30px;padding:9px 13px;display:inline-flex;gap:8px;align-items:center}.dot{width:7px;height:7px;background:#141414;border-radius:50%;animation:blink 1s infinite}@keyframes blink{50%{opacity:.2}}main{padding-top:47px}.top{display:grid;grid-template-columns:1fr auto;gap:25px;align-items:end}.eyebrow{font-size:11px;margin-bottom:18px}h1{font-size:clamp(45px,7.2vw,106px);line-height:.94;letter-spacing:-.075em;margin:0;font-weight:700;max-width:920px}h1 em{font-family:Georgia,serif;font-weight:normal}.intro{font-size:15px;line-height:1.5;max-width:300px;margin:0 0 5px;color:#4a4a45}.stats{display:flex;align-items:stretch;gap:0;padding:35px 0 27px}.stat{padding-right:34px;margin-right:34px;border-right:1px solid #b6b6ae}.stat-num{font-size:clamp(34px,4.8vw,65px);font-weight:700;letter-spacing:-.065em;line-height:1}.stat-label{font-size:10px;margin-top:10px}.stat-label:before{content:'';display:inline-block;width:9px;height:9px;background:#1d1d1b;margin-right:8px}.stat.si .stat-label:before{background:#a9a9a2}.sample{max-width:280px;color:#65655d;line-height:1.6;align-self:center}.stage{background:#e9e9e2;border:1px solid #171717;position:relative;overflow:hidden}.stagebar{min-height:45px;padding:10px 18px;border-bottom:1px solid #a8a8a1;display:flex;align-items:center;justify-content:space-between;gap:10px}.stage canvas{display:block;width:100%;height:380px}.stagefoot{background:#181818;color:#f6f5ef;display:flex;justify-content:space-between;gap:20px;padding:14px 18px;line-height:1.5}.bottom{display:flex;justify-content:space-between;gap:30px;padding:25px 0 45px;color:#5f5f58}.bottom p{margin:0;max-width:690px;font-size:13px;line-height:1.6}.bottom strong{color:#171717}.legend{white-space:nowrap}.square{display:inline-block;width:9px;height:9px;background:#171717;margin-right:6px}.square.gray{background:#a9a9a2;margin-left:16px}a{color:inherit}@media(max-width:700px){header{height:65px}.top{display:block}.intro{margin-top:22px}.stats{flex-wrap:wrap;row-gap:18px;padding-top:26px}.stat{padding-right:15px;margin-right:15px}.sample{max-width:none;width:100%}.stage canvas{height:300px}.stagefoot{font-size:9px}.bottom{display:block}.legend{margin-top:18px}.brand{font-size:19px}.pill{font-size:8px}}
-</style></head><body><div class="wrap"><header><div class="brand"><span>✳</span> AI MOUNTAIN MAN</div></header><main><div class="top"><div><div class="eyebrow mono">✳ &nbsp; THE WORLD, ONE WORD AT A TIME</div><h1>Two ideas.<br>One <em>word trail.</em></h1></div><p class="intro">How often do “artificial intelligence” and “superintelligence” appear in Hacker News posts and comments? Let’s follow the conversation.</p></div><div class="stats"><div class="stat"><div id="aiTotal" class="stat-num">—</div><div class="stat-label mono">ARTIFICIAL INTELLIGENCE</div></div><div class="stat si"><div id="siTotal" class="stat-num">—</div><div class="stat-label mono">SUPERINTELLIGENCE</div></div><div class="sample mono" id="status" aria-live="polite">CONNECTING TO HACKER NEWS…</div></div><div class="stage"><div class="stagebar mono"><span>THE WORD TRAIL &nbsp; / &nbsp; PAIRED DAILY PEAKS</span><span><span id="mode">CONNECTING…</span> &nbsp; · &nbsp; CHECKS EVERY 60 SEC WHILE OPEN</span></div><canvas id="scene" aria-label="Robot jumping across paired mountains comparing daily Hacker News search results for artificial intelligence and superintelligence"></canvas><div class="stagefoot mono"><span>✳ &nbsp; EACH PAIR IS A UTC DAY. HIGHER PEAK = MORE SEARCH RESULTS.</span><span>NO CONTROLS NEEDED &nbsp; ↗</span></div></div><details style="padding:18px 0;border-bottom:1px solid #bdbdb5"><summary class="mono" style="cursor:pointer">VIEW DAILY COUNTS &amp; DATA NOTES</summary><div id="daily" style="font-size:13px;line-height:1.8;margin-top:14px">Updates automatically every 60 seconds while this page is open.</div></details><div class="bottom"><p><strong>One little robot. Two very big ideas.</strong><br><br>AI Mountain Man compares how often “artificial intelligence” and “superintelligence” appear in Hacker News search results. It was inspired by a request from one of Smrita Jain’s federal clients to change terminology from AI to SI. That raised a question: how might a change in wording affect what people find when they search? This project explores the relative visibility of the two terms in one technology community.<br><br>Counts represent matching Hacker News posts and comments, not all worldwide searches or usage. Results can overlap, may be estimated, and may include matches in a comment’s parent story title. Today’s count is still developing. N/A means data is unavailable.<br><br><strong>Data source:</strong> <a href="https://hn.algolia.com/" target="_blank" rel="noopener">Hacker News Search by Algolia</a>. This project visualizes results supplied by that third-party service; Smrita Jain does not independently verify each result. Figures may be estimated, delayed, or revised and do not represent all worldwide usage or search activity. The page checks for updates every 60 seconds while open; source indexing may take longer. Dates use UTC.<br><br>© 2026 Smrita Jain. All rights reserved.</p><div class="legend mono"><span class="square"></span> AI <span class="square gray"></span> SI</div></div></main></div><script>
-const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d');let W,H,dpr;function resize(){dpr=window.devicePixelRatio||1;W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}window.addEventListener('resize',resize);resize();const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let data=Array.from({length:7},(_,i)=>{const day=new Date();day.setUTCHours(0,0,0,0);day.setUTCDate(day.getUTCDate()-6+i);return {label:day.toLocaleDateString('en-US',{month:'short',day:'2-digit',timeZone:'UTC'}).toUpperCase(),ai:null,si:null,aiApprox:false,siApprox:false}});let lastFetched=null,loading=false;const fmt=n=>Number(n).toLocaleString('en-US');const display=(n,approx)=>n===null?'N/A':(approx?'~':'')+fmt(n);function status(message){document.getElementById('status').textContent=message}async function getCount(term,start,end){const params=new URLSearchParams({query:term,tags:'(story,comment)',numericFilters:'created_at_i>='+start+',created_at_i<'+end,hitsPerPage:'1'});const r=await fetch('https://hn.algolia.com/api/v1/search_by_date?'+params,{signal:AbortSignal.timeout(15000),cache:'no-store'});if(!r.ok)throw Error('Source unavailable');const j=await r.json();if(!Number.isInteger(j.nbHits)||j.nbHits<0)throw Error('Invalid total');return {count:j.nbHits,approx:j.exhaustiveNbHits!==true}}
-async function load(){if(loading)return;loading=true;try{const today=new Date();today.setUTCHours(0,0,0,0);const days=Array.from({length:7},(_,i)=>{let d=new Date(today.getTime()-(6-i)*86400000);return {date:d,label:d.toLocaleDateString('en-US',{month:'short',day:'2-digit',timeZone:'UTC'}).toUpperCase()}});const calls=days.flatMap(d=>{let start=Math.floor(d.date.getTime()/1000),end=start+86400;return [getCount('"artificial intelligence"',start,end),getCount('"superintelligence"',start,end)]});const results=await Promise.allSettled(calls);const rows=days.map((d,i)=>{const a=results[i*2],b=results[i*2+1];return {label:d.label,ai:a.status==='fulfilled'?a.value.count:null,si:b.status==='fulfilled'?b.value.count:null,aiApprox:a.status==='fulfilled'&&a.value.approx,siApprox:b.status==='fulfilled'&&b.value.approx}});if(!rows.some(x=>x.ai!==null||x.si!==null))throw Error('No results');data=rows;lastFetched=new Date();const last=data.at(-1);document.getElementById('aiTotal').textContent=display(last.ai,last.aiApprox);document.getElementById('siTotal').textContent=display(last.si,last.siApprox);const partial=results.some(x=>x.status==='rejected');document.getElementById('mode').textContent=partial?'SOME DATA UNAVAILABLE':'HACKER NEWS DATA';status((partial?'SOME COUNTS UNAVAILABLE · ':'')+'LATEST DAY: '+last.label+' UTC (IN PROGRESS) · CHECKED '+lastFetched.toLocaleTimeString([], {hour:'numeric',minute:'2-digit',second:'2-digit'})+' · ~ MEANS ESTIMATED');document.getElementById('daily').textContent=data.map(d=>d.label+' UTC: AI '+display(d.ai,d.aiApprox)+' · SI '+display(d.si,d.siApprox)).join(' | ')}catch(e){document.getElementById('mode').textContent=lastFetched?'LAST AVAILABLE DATA':'DATA UNAVAILABLE';status(lastFetched?'UPDATE DELAYED · LAST UPDATED '+lastFetched.toLocaleTimeString():'DATA TEMPORARILY UNAVAILABLE · RETRYING AUTOMATICALLY')}finally{loading=false}}load();setInterval(load,60000);
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI Mountain Man</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A tiny 8-bit robot jumps across daily mountains of how often the world writes, searches and talks about artificial intelligence vs superintelligence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Press+Start+2P&family=Silkscreen&display=swap">
+<style>
+/* Layout: one cartridge — hero ticker, then the game screen with a HUD, a control deck, then the scoreboard and notes. Pure black & white. */
+:root{
+  --paper:#fbfbf8; --ink:#0e0e0d; --mid:#7d7d77; --line:#d9d9d3; --soft:#efefea; --screen:#f4f4ef;
+  --f-pixel:'Press Start 2P','Silkscreen',ui-monospace,monospace;
+  --f-label:'Silkscreen','Press Start 2P',ui-monospace,monospace;
+  --f-body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --px:4px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0c0c0b;--ink:#f1f1ec;--mid:#85857e;--line:#2b2b28;--soft:#171716;--screen:#121211;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0c0c0b;--ink:#f1f1ec;--mid:#85857e;--line:#2b2b28;--soft:#171716;--screen:#121211;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{background:var(--paper);color:var(--ink)}
+body{margin:0;font-family:var(--f-body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.lbl{font-family:var(--f-label);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.px{font-family:var(--f-pixel);letter-spacing:0}
+.num{font-variant-numeric:tabular-nums}
 
-let start=performance.now();function draw(t){let elapsed=reduce?0:(t-start)/1000;ctx.clearRect(0,0,W,H);ctx.fillStyle='#e9e9e2';ctx.fillRect(0,0,W,H);let base=H-40,step=Math.max(220,W/4.4),scroll=(elapsed*13)%(step*data.length),shift=-scroll-step;ctx.strokeStyle='#d1d1c9';ctx.lineWidth=1;for(let y=40;y<base;y+=55){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}ctx.fillStyle='#999991';ctx.font='10px monospace';ctx.fillText('MORE ↑',18,25);const max=Math.max(...data.flatMap(d=>[d.ai,d.si].filter(v=>v!==null)),1);for(let i=-1;i<data.length*3;i++){let d=data[(i+data.length*3)%data.length],x=shift+i*step;if(x < -step||x>W+step)continue;for(let j=0;j<2;j++){let val=j?d.si:d.ai,px=x+(j?step*.22:-step*.18),height=(val===null?0:val)/max*(H-105),peak=base-height;if(val===null){ctx.textAlign='center';ctx.fillStyle='#555';ctx.font='bold 11px monospace';ctx.fillText('N/A',px,base-26);continue}ctx.fillStyle=j?'#aaa9a1':'#242423';ctx.beginPath();ctx.moveTo(px-step*.25,base);ctx.lineTo(px,peak);ctx.lineTo(px+step*.25,base);ctx.closePath();ctx.fill();ctx.textAlign='center';ctx.fillStyle='#171717';ctx.font='bold 11px monospace';ctx.fillText(display(val,j?d.siApprox:d.aiApprox),px,Math.max(16,peak-12));}ctx.textAlign='center';ctx.fillStyle='#f6f5ef';ctx.font='10px monospace';ctx.fillText(d.label,x-step*.18,base-12)}ctx.textAlign='left';ctx.fillStyle='#191919';ctx.fillRect(0,base,W,3);ctx.font='10px monospace';ctx.fillText('← PAST',15,H-14);ctx.textAlign='right';ctx.fillText('THE WORD KEEPS TRAVELLING →',W-15,H-14);let rx=W*.49,pos=(rx-shift)/step+.18,idx=Math.floor(pos),phase=pos-idx,day=data[((idx%data.length)+data.length)%data.length],next=data[(((idx+1)%data.length)+data.length)%data.length],from,to,progress;if(phase<.4){from=day.ai;to=day.si;progress=phase/.4}else{from=day.si;to=next.ai;progress=(phase-.4)/.6}let peakFrom=base-((from??0)/max*(H-105)),peakTo=base-((to??0)/max*(H-105)),ry=peakFrom+(peakTo-peakFrom)*progress-14-Math.sin(Math.PI*progress)*28;ctx.save();ctx.translate(rx,ry);ctx.fillStyle=reduce?'#f08a36':['#f08a36','#64b95c','#a376db'][Math.floor(elapsed/1.5)%3];ctx.strokeStyle='#111';ctx.lineWidth=2;ctx.fillRect(-15,-18,30,25);ctx.strokeRect(-15,-18,30,25);ctx.fillStyle='#111';ctx.fillRect(-8,-9,4,4);ctx.fillRect(5,-9,4,4);ctx.fillRect(-4,0,9,2);ctx.fillRect(-2,-25,2,7);ctx.fillRect(-4,-27,6,3);ctx.fillRect(-13,7,5,7);ctx.fillRect(8,7,5,7);ctx.fillRect(-20,-12,5,4);ctx.fillRect(15,-12,5,4);ctx.restore();requestAnimationFrame(draw)}requestAnimationFrame(draw);
-</script></body></html>
+/* header */
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px;border-bottom:var(--px) solid var(--ink)}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--f-pixel);font-size:14px;line-height:1.3}
+.brand canvas{width:30px;height:33px;image-rendering:pixelated}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+
+/* chunky pixel buttons */
+.btn{font-family:var(--f-label);font-size:12px;text-transform:uppercase;letter-spacing:.05em;background:var(--paper);border:3px solid var(--ink);
+  padding:8px 12px;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .06s,box-shadow .06s;min-height:40px;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:28px;align-items:end;padding-block:36px 26px}
+.kicker{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.live{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);padding:4px 8px}
+.live i{width:8px;height:8px;background:var(--ink);display:block;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.sentence{font-size:clamp(18px,2.2vw,24px);line-height:1.35;margin:0;max-width:34ch;text-wrap:balance}
+.ticker{display:block;font-family:var(--f-pixel);font-size:clamp(34px,6.4vw,76px);line-height:1.15;margin:14px 0 12px;letter-spacing:-.02em;word-break:break-all}
+.ticker .tick{display:inline-block}
+.ticker .tick.bump{animation:bump .25s steps(3)}
+@keyframes bump{0%{transform:translateY(-.18em)}100%{transform:none}}
+.sub{color:var(--mid);font-size:14px;margin:0}
+.duel{border:3px solid var(--ink);background:var(--screen);padding:16px;display:grid;gap:14px}
+.duel-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.sw{width:18px;height:18px;border:3px solid var(--ink);background:var(--ink)}
+.sw.si{background:repeating-conic-gradient(var(--ink) 0 25%,var(--paper) 0 50%) 0 0/6px 6px}
+.duel-row b{font-family:var(--f-pixel);font-size:clamp(12px,1.6vw,16px)}
+.ratio{font-family:var(--f-pixel);font-size:clamp(20px,3vw,30px);line-height:1.3}
+.bar{height:16px;border:3px solid var(--ink);display:flex}
+.bar span{background:var(--ink);height:100%;transition:width .6s steps(12)}
+
+/* stage */
+.stage{border:var(--px) solid var(--ink);background:var(--screen);position:relative;box-shadow:8px 8px 0 var(--ink)}
+.hud{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px 16px 4px;font-family:var(--f-pixel);font-size:11px;line-height:1.9;position:absolute;inset:0 0 auto;pointer-events:none;z-index:2}
+.hud div{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud small{display:block;font-size:9px;color:var(--mid)}
+#scene{display:block;width:100%;height:420px;touch-action:pan-y;cursor:grab;image-rendering:pixelated}
+#scene:active{cursor:grabbing}
+.deck{border-top:var(--px) solid var(--ink);background:var(--paper);padding:14px 16px;display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center}
+.ctl{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ctl > span{font-family:var(--f-label);font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:.06em}
+.seg{display:inline-flex;border:3px solid var(--ink);flex-wrap:wrap}
+.seg button{font-family:var(--f-label);font-size:12px;text-transform:uppercase;background:var(--paper);border:0;border-right:3px solid var(--ink);padding:7px 11px;cursor:pointer;min-height:36px}
+.seg button:last-child{border-right:0}
+.seg button:hover:not([aria-pressed="true"]){background:var(--soft)}
+.seg button[disabled]{opacity:.35;cursor:not-allowed}
+.deck .grow{flex:1}
+.hint{font-family:var(--f-label);font-size:11px;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;padding:10px 16px;border-top:2px solid var(--line);background:var(--paper);display:flex;flex-wrap:wrap;gap:6px 18px}
+.hint kbd{font-family:var(--f-label);border:2px solid var(--mid);padding:0 4px}
+
+/* inspect + facts */
+.below{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;padding-block:40px 8px}
+.panel{border:3px solid var(--ink);padding:18px;background:var(--paper)}
+.panel h2{font-family:var(--f-pixel);font-size:13px;line-height:1.6;margin:0 0 14px;text-wrap:balance}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.kv div{border-top:2px solid var(--line);padding-top:8px;min-width:0}
+.kv dt{font-family:var(--f-label);font-size:11px;color:var(--mid);text-transform:uppercase}
+.kv dd{margin:2px 0 0;font-family:var(--f-pixel);font-size:15px;line-height:1.6;overflow-wrap:anywhere}
+.kv{margin:0}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.facts li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;align-items:start;font-size:15px}
+.facts li::before{content:'';width:18px;height:18px;margin-top:2px;background:var(--ink);clip-path:polygon(40% 0,60% 0,60% 40%,100% 40%,100% 60%,60% 60%,60% 100%,40% 100%,40% 60%,0 60%,0 40%,40% 40%)}
+
+/* scoreboard */
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:48px 0 16px}
+.sec-h h2{font-family:var(--f-pixel);font-size:clamp(14px,1.8vw,18px);line-height:1.5;margin:0}
+.sec-h p{margin:0;color:var(--mid);font-size:14px;max-width:52ch}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{text-align:left;border:3px solid var(--ink);background:var(--paper);padding:16px;cursor:pointer;display:grid;gap:10px;box-shadow:4px 4px 0 var(--ink);transition:transform .06s,box-shadow .06s}
+.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.card[aria-pressed="true"] .muted{color:var(--paper);opacity:.7}
+.card-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.card .world{font-family:var(--f-pixel);font-size:10px}
+.badge{font-family:var(--f-label);font-size:10px;border:2px solid currentColor;padding:1px 6px;text-transform:uppercase}
+.card h3{margin:0;font-family:var(--f-pixel);font-size:14px;line-height:1.5}
+.muted{color:var(--mid);font-size:14px}
+.card .pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.card .pair b{display:block;font-family:var(--f-pixel);font-size:14px;line-height:1.7}
+.card svg{width:100%;height:40px;display:block}
+
+/* table + about */
+details{border:3px solid var(--ink);margin-top:40px;background:var(--paper)}
+summary{font-family:var(--f-label);font-size:13px;text-transform:uppercase;padding:14px 16px;cursor:pointer;letter-spacing:.05em;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:'+';font-family:var(--f-pixel)}
+details[open] summary::after{content:'−'}
+.tbl{overflow-x:auto;border-top:3px solid var(--ink)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-variant-numeric:tabular-nums;font-size:14px}
+th,td{padding:8px 14px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+th{font-family:var(--f-label);font-size:11px;text-transform:uppercase;color:var(--mid);font-weight:400}
+.tbl-actions{display:flex;gap:10px;flex-wrap:wrap;padding:14px 16px}
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:28px;padding-block:48px 24px;border-bottom:var(--px) solid var(--ink)}
+.about h3{font-family:var(--f-pixel);font-size:12px;line-height:1.6;margin:0 0 10px}
+.about p{margin:0 0 12px;font-size:15px;max-width:60ch}
+.about ul{margin:0;padding-left:18px;font-size:15px}
+.about li{margin-bottom:6px}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:18px 40px;color:var(--mid)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);font-family:var(--f-label);font-size:13px;padding:10px 16px;z-index:20;text-transform:uppercase;max-width:calc(100% - 32px)}
+
+/* live wire */
+.wire{border:3px solid var(--ink);background:var(--paper);margin-bottom:28px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:stretch}
+.wire-h{display:flex;flex-direction:column;justify-content:center;gap:6px;padding:12px 16px;border-right:3px solid var(--ink);background:var(--ink);color:var(--paper)}
+.wire-h .lbl{display:flex;align-items:center;gap:8px}
+.wire-h i{width:8px;height:8px;background:var(--paper);display:block;animation:blink 1s steps(2) infinite}
+.wire.off .wire-h i{animation:none;opacity:.3}
+.wire-h b{font-family:var(--f-pixel);font-size:18px;line-height:1.4}
+.wire-h small{font-family:var(--f-label);font-size:10px;text-transform:uppercase;opacity:.75}
+.wire-body{padding:10px 16px;display:grid;gap:8px;min-width:0}
+.wire-stats{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--f-label);font-size:12px;text-transform:uppercase}
+.wire-stats b{font-family:var(--f-pixel);font-size:12px}
+.feed{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;min-height:30px;align-items:center}
+.feed::-webkit-scrollbar{display:none}
+.feed a,.feed span{flex:none;font-family:var(--f-label);font-size:11px;text-transform:uppercase;border:2px solid var(--ink);padding:3px 8px;text-decoration:none;white-space:nowrap}
+.feed a.si{border-style:dashed}
+.feed .new{animation:pop .4s steps(3)}
+@keyframes pop{0%{transform:translateY(-6px);background:var(--ink);color:var(--paper)}}
+.feed .empty{border-color:transparent;color:var(--mid);padding-left:0}
+.wire-ctl{display:flex;align-items:center;padding:10px 16px;border-left:3px solid var(--ink)}
+@media (max-width:860px){
+  .wire{grid-template-columns:minmax(0,1fr)}.wire-h{border-right:0;border-bottom:3px solid var(--ink);flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;gap:6px 14px}.wire-ctl{border-left:0;border-top:2px solid var(--line)}
+  .hero,.below{grid-template-columns:minmax(0,1fr)}
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .about{grid-template-columns:minmax(0,1fr)}
+  #scene{height:340px}
+  .hud{font-size:9px;padding:10px 10px 4px}
+  .hud small{font-size:8px}
+}
+@media (max-width:460px){
+  .brand span{font-size:11px}
+  .hbtns .btn span{display:none}
+  .hud{grid-template-columns:repeat(2,minmax(0,1fr));line-height:1.7}
+  .hud .hide-s{display:none}
+  .deck{gap:12px}
+  .stage{box-shadow:5px 5px 0 var(--ink)}
+}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}.ticker .tick.bump{animation:none}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><canvas id="logo" width="12" height="13" aria-hidden="true"></canvas><span>AI MOUNTAIN MAN</span></div>
+    <div class="hbtns">
+      <button class="btn" id="themeBtn" type="button" aria-label="Switch day or night level">☾ <span>Night</span></button>
+      <button class="btn" id="shareBtn" type="button">⇪ <span>Share</span></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 1-1 · News</span></div>
+      <p class="sentence" id="sentence">Today, “artificial intelligence” has been written in about</p>
+      <span class="ticker num" id="ticker" aria-label="AI count today">0</span>
+      <p class="sentence" id="sentence2">news articles worldwide.</p>
+      <p class="sub" id="tickerNote" style="margin-top:12px">Loading the latest counts…</p>
+    </div>
+    <div class="duel" aria-label="Artificial intelligence versus superintelligence today">
+      <div class="lbl">Today’s duel</div>
+      <div class="duel-row"><span class="sw"></span><span>Artificial intelligence</span><b class="num" id="dAI">—</b></div>
+      <div class="duel-row"><span class="sw si"></span><span>Superintelligence</span><b class="num" id="dSI">—</b></div>
+      <div class="bar" aria-hidden="true"><span id="dBar" style="width:50%"></span></div>
+      <div><div class="ratio num" id="dRatio">— : 1</div><div class="sub" id="dRatioNote">AI mentions for every one SI mention</div></div>
+    </div>
+  </section>
+
+  <section class="wire" id="wire" aria-label="Live mentions">
+    <div class="wire-h">
+      <span class="lbl"><i></i>Live wire</span>
+      <b class="num" id="wTotal">0</b>
+      <small id="wSince">mentions since you arrived</small>
+    </div>
+    <div class="wire-body">
+      <div class="wire-stats" id="wStats"><span>AI <b class="num" id="wAI">0</b></span><span>SI <b class="num" id="wSI">0</b></span><span>Per min <b class="num" id="wRate">—</b></span><span>Languages <b class="num" id="wLangs">—</b></span><span id="wState">Connecting to Bluesky…</span></div>
+      <div class="feed" id="feed" aria-live="off"><span class="empty">Waiting for the next person to write it…</span></div>
+    </div>
+    <div class="wire-ctl"><button class="btn" id="wireBtn" type="button" aria-pressed="true">Live: on</button></div>
+  </section>
+  <section class="stage" aria-label="The game: a robot jumps across one pair of mountains per day">
+    <div class="hud" aria-hidden="true">
+      <div><small>AI ×</small><span id="hAI">—</span></div>
+      <div><small>SI ×</small><span id="hSI">—</span></div>
+      <div class="hide-s"><small id="hWorldL">World</small><span id="hDay">—</span></div>
+      <div class="hide-s"><small>Time UTC</small><span id="hTime">—</span></div>
+    </div>
+    <canvas id="scene" tabindex="0" role="img" aria-label="Pixel robot jumping across daily mountains. Black mountains are artificial intelligence, checkered mountains are superintelligence. Tap a mountain to inspect a day."></canvas>
+    <div class="deck">
+      <div class="ctl"><span>Where</span><div class="seg" id="segRegion"><button type="button" data-v="world">World</button><button type="button" data-v="us">USA</button></div></div>
+      <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="news">1 · News</button><button type="button" data-v="wiki">2 · Wiki</button><button type="button" data-v="hn">3 · HN</button></div></div>
+      <div class="ctl"><span>Days</span><div class="seg" id="segRange"><button type="button" data-v="7">7</button><button type="button" data-v="14">14</button><button type="button" data-v="30">30</button></div></div>
+      <div class="ctl"><span>Height</span><div class="seg" id="segScale"><button type="button" data-v="linear">Real</button><button type="button" data-v="log">Log</button></div></div>
+      <div class="grow"></div>
+      <div class="ctl"><span>Play</span><div class="seg"><button type="button" id="playBtn" aria-label="Pause">❚❚</button><button type="button" id="speedBtn" aria-label="Change speed">1×</button><button type="button" id="soundBtn" aria-pressed="false" aria-label="Toggle 8-bit sound">♪ Off</button></div></div>
+    </div>
+    <div class="hint"><span>Tap a mountain to inspect</span><span>Tap the robot to jump</span><span>Drag to scrub days</span><span class="hide-s"><kbd>←</kbd><kbd>→</kbd> step · <kbd>Space</kbd> jump · <kbd>P</kbd> pause</span></div>
+  </section>
+
+  <section class="below">
+    <div class="panel">
+      <h2 id="inTitle">The robot is standing on today</h2>
+      <dl class="kv">
+        <div><dt>Artificial intelligence</dt><dd class="num" id="inAI">—</dd></div>
+        <div><dt>Superintelligence</dt><dd class="num" id="inSI">—</dd></div>
+        <div><dt>Ratio AI : SI</dt><dd class="num" id="inRatio">—</dd></div>
+        <div><dt id="inChangeL">AI vs day before</dt><dd class="num" id="inChange">—</dd></div>
+      </dl>
+      <p class="sub" id="inNote" style="margin-top:14px">Tap any mountain to pin a day. Tap it again to let the robot lead.</p>
+    </div>
+    <div class="panel">
+      <h2>Power-ups from this level</h2>
+      <ul class="facts" id="facts"><li>Collecting coins…</li></ul>
+    </div>
+  </section>
+
+  <div class="sec-h">
+    <h2>Three worlds, one word</h2>
+    <p>Each level counts a different kind of attention. Pick one to send the robot there. Lines show trend shape, each on its own scale.</p>
+  </div>
+  <div class="cards" id="cards"></div>
+
+  <details id="dataBox">
+    <summary>Daily counts for this level</summary>
+    <div class="tbl"><table><thead><tr><th>Day (UTC)</th><th>Artificial intelligence</th><th>Superintelligence</th><th>AI : SI</th></tr></thead><tbody id="tbody"></tbody></table></div>
+    <div class="tbl-actions"><button class="btn" id="copyCsv" type="button">Copy as CSV</button><button class="btn" id="dlCsv" type="button">Download CSV</button></div>
+  </details>
+
+  <section class="about">
+    <div>
+      <h3>Why this exists</h3>
+      <p>One of Smrita Jain’s federal clients asked to change its wording from AI to SI. That raised a question: if the words change, what changes in what people find, read and talk about?</p>
+      <p>AI Mountain Man follows both words around the world, one day and one jump at a time.</p>
+    </div>
+    <div>
+      <h3>How it counts</h3>
+      <ul>
+        <li><b>1 · News</b> counts news articles that contain each term, refreshed every 30 minutes, from the <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT Project</a>. USA uses US-based outlets only.</li>
+        <li><b>2 · Wiki</b> counts human page views of the English Wikipedia articles <i>Artificial intelligence</i> and <i>Superintelligence</i> (<a href="https://wikimedia.org/api/rest_v1/" target="_blank" rel="noopener">Wikimedia API</a>). Counts arrive a day late and have no country split.</li>
+        <li><b>Live wire</b> watches every new public Bluesky post through the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed, plus new Hacker News items every 15 seconds. It counts only while this page is open and pauses when the tab is hidden.</li>
+        <li><b>3 · HN</b> counts Hacker News posts and comments, via <a href="https://hn.algolia.com/" target="_blank" rel="noopener">HN Search by Algolia</a>. Global only.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Reading it fairly</h3>
+      <p>These are samples of public attention, not every word typed on Earth. The big ticker is a live pace estimate: the last three full days’ average, spread across today and never below today’s measured count. Days are UTC.</p>
+      <p>Built for $0: a static GitHub Pages site, a free scheduled GitHub Action and keyless public APIs.</p>
+    </div>
+  </section>
+  <footer class="lbl"><span>© 2026 Smrita Jain</span><span id="foot">Checking sources…</span></footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(()=>{
+'use strict';
+const $=s=>document.querySelector(s);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DAY=86400000;
+
+/* ---------- helpers ---------- */
+const keyOf=d=>d.toISOString().slice(0,10).replace(/-/g,'');
+const dateOf=k=>new Date(Date.UTC(+k.slice(0,4),+k.slice(4,6)-1,+k.slice(6,8)));
+const todayKey=()=>keyOf(new Date());
+const label=k=>dateOf(k).toLocaleDateString('en-US',{month:'short',day:'2-digit',timeZone:'UTC'}).toUpperCase();
+const fmt=n=>n==null?'N/A':Math.round(n).toLocaleString('en-US');
+const compact=n=>{if(n==null)return 'N/A';const a=Math.abs(n);if(a>=1e9)return (n/1e9).toFixed(a>=1e10?0:1)+'B';if(a>=1e6)return (n/1e6).toFixed(a>=1e7?0:1)+'M';if(a>=1e4)return (n/1e3).toFixed(0)+'K';if(a>=1e3)return (n/1e3).toFixed(1)+'K';return String(Math.round(n))};
+const ratioTxt=(a,s)=>a==null||s==null?'—':s===0?(a>0?a.toLocaleString('en-US')+' : 0':'—'):(a/s>=10?Math.round(a/s):(a/s).toFixed(1))+' : 1';
+const lastKeys=n=>{const t=dateOf(todayKey()).getTime();return Array.from({length:n},(_,i)=>keyOf(new Date(t-(n-1-i)*DAY)))};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function getJSON(url,ms=12000){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);try{const r=await fetch(url,{signal:c.signal,cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}}
+let storeOK=true;const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- state ---------- */
+const SRC={
+  news:{n:'1',name:'News',full:'News articles',geo:true,unit:'articles'},
+  wiki:{n:'2',name:'Wiki',full:'Wikipedia lookups',geo:false,unit:'page views'},
+  hn:{n:'3',name:'HN',full:'Hacker News talk',geo:false,unit:'posts & comments'}
+};
+const state={src:'news',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
+(function readHash(){const p=(location.hash||'').slice(1).split('-');if(SRC[p[0]])state.src=p[0];if(p[1]==='us'||p[1]==='world')state.region=p[1];if(['7','14','30'].includes(p[2]))state.range=+p[2];if(p[3]==='log'||p[3]==='linear')state.scale=p[3]})();
+const store={};for(const s in SRC)store[s]={status:'loading',checked:null,series:{world:{},us:{}},note:''};
+
+/* ---------- sample data (only used when a live source can't be reached) ---------- */
+function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0)/4294967296}
+function sampleFill(src){
+  const base={news:{world:[30000,240],us:[11500,105]},wiki:{world:[8800,620]},hn:{world:[170,9]}}[src];
+  const tk=todayKey(),now=new Date(),frac=(now-dateOf(tk))/DAY;
+  for(const reg in base){const out={};for(const k of lastKeys(40)){const dow=dateOf(k).getUTCDay(),wf=(dow===0||dow===6)?.72:1;
+    let ai=Math.round(base[reg][0]*(.78+.5*hash(k+src+reg))*wf),si=Math.round(base[reg][1]*(.5+1.1*hash(k+src+reg+'s'))*wf);
+    if(k===tk){if(src==='wiki'){out[k]={ai:null,si:null};continue}ai=Math.round(ai*frac);si=Math.round(si*frac)}
+    out[k]={ai,si}}store[src].series[reg]=out}
+  store[src].status='sample';
+}
+
+/* ---------- live sources ---------- */
+async function pool(tasks,n){const res=new Array(tasks.length);let i=0;await Promise.all(Array.from({length:n},async()=>{while(i<tasks.length){const j=i++;try{res[j]={ok:true,v:await tasks[j]()}}catch(e){res[j]={ok:false}}}}));return res}
+async function hnCount(term,k){const s=dateOf(k).getTime()/1000;const p=new URLSearchParams({query:term,tags:'(story,comment)',numericFilters:`created_at_i>=${s},created_at_i<${s+86400}`,hitsPerPage:'0'});const j=await getJSON('https://hn.algolia.com/api/v1/search_by_date?'+p,10000);if(!Number.isInteger(j.nbHits))throw Error('bad');return j.nbHits}
+let hnBusy=false;
+async function loadHN(onlyToday){
+  if(hnBusy||store.hn.status==='sample')return;hnBusy=true;
+  try{const ser=store.hn.series.world;const tk=todayKey();const keys=onlyToday?[tk]:lastKeys(30).filter(k=>k===tk||!ser[k]||ser[k].ai==null);
+    const jobs=keys.flatMap(k=>[()=>hnCount('"artificial intelligence"',k),()=>hnCount('"superintelligence"',k)]);
+    const r=await pool(jobs,6);let ok=0;
+    keys.forEach((k,i)=>{const a=r[i*2],b=r[i*2+1];if(a.ok||b.ok)ok++;ser[k]={ai:a.ok?a.v:(ser[k]?.ai??null),si:b.ok?b.v:(ser[k]?.si??null)}});
+    if(!ok&&store.hn.status!=='live')throw Error('none');
+    store.hn.status='live';store.hn.checked=new Date();
+  }catch(e){if(store.hn.status!=='live')sampleFill('hn')}finally{hnBusy=false;refresh()}
+}
+async function loadWiki(){
+  try{const tk=todayKey(),start=keyOf(new Date(dateOf(tk)-40*DAY));
+    const get=a=>getJSON(`https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/${a}/daily/${start}00/${tk}00`);
+    const [A,S]=await Promise.allSettled([get('Artificial_intelligence'),get('Superintelligence')]);
+    if(A.status!=='fulfilled'&&S.status!=='fulfilled')throw Error('none');
+    const ser={};for(const k of lastKeys(40))ser[k]={ai:null,si:null};
+    if(A.status==='fulfilled')for(const it of A.value.items||[]){const k=String(it.timestamp).slice(0,8);if(ser[k])ser[k].ai=it.views}
+    if(S.status==='fulfilled')for(const it of S.value.items||[]){const k=String(it.timestamp).slice(0,8);if(ser[k])ser[k].si=it.views}
+    store.wiki.series.world=ser;store.wiki.status='live';store.wiki.checked=new Date();
+  }catch(e){if(store.wiki.status!=='live')sampleFill('wiki')}finally{refresh()}
+}
+function parseGdelt(j){const tl=j.timeline||[];const s=tl.find(x=>!/total|all/i.test(x.series||''))||tl[0];if(!s||!Array.isArray(s.data))throw Error('bad');const out={};for(const p of s.data){const k=String(p.date).slice(0,8);if(!/^\d{8}$/.test(k))continue;out[k]=out[k]||{v:0,n:0};out[k].v+=+p.value||0;out[k].n+=+p.norm||0}return out}
+async function loadNews(){
+  try{
+    let days=null,updated=null;
+    try{const j=await getJSON('data/gdelt.json?'+Date.now(),8000);days=j.days;updated=j.updated_at}catch(e){}
+    if(days&&Object.keys(days).length){
+      for(const reg of ['world','us']){const ser={};for(const k in days){const d=days[k][reg];if(d)ser[k]={ai:d.ai??null,si:d.si??null,total:d.total??null}}store.news.series[reg]=ser}
+      store.news.status='live';store.news.checked=updated?new Date(updated):new Date();store.news.note='Collected every 30 minutes';
+    }else{
+      /* direct browser fallback: GDELT asks for one request every 5 seconds */
+      const q=(t,us)=>'https://api.gdeltproject.org/api/v2/doc/doc?'+new URLSearchParams({query:t+(us?' sourcecountry:US':''),mode:'timelinevolraw',timespan:'30d',format:'json'});
+      let any=false;
+      for(const reg of ['world','us']){const ser={};
+        for(const [term,key] of [['"artificial intelligence"','ai'],['superintelligence','si']]){
+          try{const p=parseGdelt(await getJSON(q(term,reg==='us'),20000));any=true;for(const k in p){ser[k]=ser[k]||{ai:null,si:null,total:null};ser[k][key]=p[k].v;if(key==='ai')ser[k].total=p[k].n||null}}catch(e){if(!any)throw e}
+          await sleep(5600)}
+        store.news.series[reg]=ser;if(any){store.news.status='live';refresh()}}
+      if(!any)throw Error('none');store.news.checked=new Date();store.news.note='Fetched directly';
+    }
+  }catch(e){if(store.news.status!=='live')sampleFill('news')}finally{refresh()}
+}
+
+/* ---------- derived series ---------- */
+const regOf=src=>SRC[src].geo?state.region:'world';
+function series(src=state.src,n=state.range){const ser=store[src].series[regOf(src)]||{};return lastKeys(n).map(k=>({key:k,label:label(k),ai:ser[k]?.ai??null,si:ser[k]?.si??null,total:ser[k]?.total??null,today:k===todayKey()}))}
+function paceRate(src){const ser=store[src].series[regOf(src)]||{};const tk=todayKey();const full=Object.keys(ser).filter(k=>k<tk&&ser[k].ai!=null).sort().slice(-3);
+  if(!full.length)return null;const avg=f=>full.reduce((s,k)=>s+(ser[k][f]||0),0)/full.length;return {ai:avg('ai')/86400,si:avg('si')/86400,n:full.length}}
+
+/* ---------- UI wiring ---------- */
+function setSeg(id,val){document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(val))))}
+function bindSeg(id,key,cast=v=>v){document.querySelectorAll('#'+id+' button').forEach(b=>b.addEventListener('click',()=>{if(b.disabled)return;state[key]=cast(b.dataset.v);state.pin=null;blip(660,.05);syncUI();buildWorld();refresh()}))}
+bindSeg('segRegion','region');bindSeg('segSrc','src');bindSeg('segRange','range',Number);bindSeg('segScale','scale');
+function writeHash(){const h=`${state.src}-${state.region}-${state.range}-${state.scale}`;try{history.replaceState(null,'','#'+h)}catch(e){}}
+function syncUI(){setSeg('segRegion',state.region);setSeg('segSrc',state.src);setSeg('segRange',state.range);setSeg('segScale',state.scale);
+  $('#playBtn').textContent=state.playing?'❚❚':'▶';$('#playBtn').setAttribute('aria-label',state.playing?'Pause':'Play');
+  $('#speedBtn').textContent=state.speed+'×';$('#soundBtn').textContent=state.sound?'♪ On':'♪ Off';$('#soundBtn').setAttribute('aria-pressed',String(state.sound));writeHash()}
+$('#playBtn').onclick=()=>{state.playing=!state.playing;syncUI()};
+$('#speedBtn').onclick=()=>{state.speed=state.speed===1?2:state.speed===2?4:1;syncUI()};
+$('#soundBtn').onclick=()=>{state.sound=!state.sound;if(state.sound)blip(880,.08,'coin');syncUI()};
+
+/* theme */
+const root=document.documentElement;
+function isDark(){const t=root.getAttribute('data-theme');return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches}
+function setThemeBtn(){$('#themeBtn').innerHTML=isDark()?'☀ <span>Day</span>':'☾ <span>Night</span>'}
+const savedTheme=ls.get('amm-theme');if(savedTheme)root.setAttribute('data-theme',savedTheme);
+$('#themeBtn').onclick=()=>{const t=isDark()?'light':'dark';root.setAttribute('data-theme',t);ls.set('amm-theme',t);setThemeBtn();readColors()};
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{setThemeBtn();readColors()});
+setThemeBtn();
+
+/* toast + share + csv */
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2200)}
+async function copy(text,ok){try{await navigator.clipboard.writeText(text);toast(ok)}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();let done=false;try{done=document.execCommand('copy')}catch(_){}ta.remove();toast(done?ok:'Copy blocked here — select the text manually')}}
+$('#shareBtn').onclick=async()=>{const s=series(),t=s.at(-1);const text=`Today on AI Mountain Man: "artificial intelligence" ${compact(t.ai)} vs "superintelligence" ${compact(t.si)} (${SRC[state.src].full}, ${regOf(state.src)==='us'?'USA':'World'}).`;
+  try{if(navigator.share){await navigator.share({title:'AI Mountain Man',text,url:location.href});return}}catch(e){if(e&&e.name==='AbortError')return}copy(text+' '+location.href,'Link copied')};
+function csv(){const s=series(state.src,30);return ['date_utc,artificial_intelligence,superintelligence,source,region'].concat(s.map(d=>[d.key,d.ai??'',d.si??'',SRC[state.src].full,regOf(state.src)].join(','))).join('\n')}
+$('#copyCsv').onclick=()=>copy(csv(),'CSV copied');
+$('#dlCsv').onclick=()=>{try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv()],{type:'text/csv'}));a.download=`ai-mountain-${state.src}-${regOf(state.src)}.csv`;document.body.appendChild(a);a.click();a.remove();toast('Downloading CSV')}catch(e){copy(csv(),'CSV copied')}};
+
+try{if(window.top!==window)$('#dlCsv').hidden=true}catch(e){$('#dlCsv').hidden=true}
+/* ---------- 8-bit sound ---------- */
+let actx=null;
+function blip(f,d=.06,kind){if(!state.sound)return;try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();o.type='square';o.frequency.setValueAtTime(f,actx.currentTime);if(kind==='coin')o.frequency.setValueAtTime(f*1.5,actx.currentTime+d*.5);if(kind==='jump')o.frequency.exponentialRampToValueAtTime(f*2,actx.currentTime+d);g.gain.setValueAtTime(.05,actx.currentTime);g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+d*1.6);o.connect(g).connect(actx.destination);o.start();o.stop(actx.currentTime+d*1.7)}catch(e){}}
+
+/* ---------- robot sprite ---------- */
+const ROBOT={
+ a:["....#.......","...###......","..########..",".##########.",".#oo####oo#.",".#oo####oo#.",".##########.",".###oooo###.","..########..","#.########.#","#.########.#","...##..##...","...##..##..."],
+ b:["....#.......","...###......","..########..",".##########.",".#oo####oo#.",".#oo####oo#.",".##########.",".###oooo###.","..########..","#.########.#","#.########.#","..##....##..",".##......##."],
+ j:["....#.......","...###......","#.########.#","###########.",".#oo####oo#.",".#oo####oo#.",".##########.",".###oooo###.","..########..","..########..","..########..","..##....##..","..#......#.."]
+};
+function drawSprite(c,frame,x,y,s,ink,paper,blink){for(let r=0;r<frame.length;r++)for(let q=0;q<12;q++){const ch=frame[r][q];if(ch==='.')continue;c.fillStyle=ch==='#'?ink:(blink&&(r===4)?ink:paper);c.fillRect(x+q*s,y+r*s,s,s)}}
+(function logo(){const c=$('#logo').getContext('2d');const draw=()=>{c.clearRect(0,0,12,13);const cs=getComputedStyle(root);drawSprite(c,ROBOT.a,0,0,1,cs.getPropertyValue('--ink').trim(),cs.getPropertyValue('--paper').trim())};draw();window.__logo=draw})();
+
+/* ---------- canvas world ---------- */
+const cv=$('#scene'),ctx=cv.getContext('2d');let W=0,H=0,dpr=1;
+let C={};function readColors(){const cs=getComputedStyle(root);C={ink:cs.getPropertyValue('--ink').trim(),paper:cs.getPropertyValue('--paper').trim(),mid:cs.getPropertyValue('--mid').trim(),screen:cs.getPropertyValue('--screen').trim(),line:cs.getPropertyValue('--line').trim()};makePattern();window.__logo&&window.__logo()}
+let pat=null;function makePattern(){const p=document.createElement('canvas');p.width=p.height=6;const c=p.getContext('2d');c.fillStyle=C.paper;c.fillRect(0,0,6,6);c.fillStyle=C.ink;c.fillRect(0,0,3,3);c.fillRect(3,3,3,3);pat=ctx.createPattern(p,'repeat')}
+function resize(){dpr=Math.min(2,window.devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.imageSmoothingEnabled=false;makePattern();buildWorld()}
+let world={days:[],wps:[],mts:[],dayW:240,ground:0,startX:0,endX:0,max:1};
+const P=4,snap=v=>Math.round(v/P)*P;
+function hFor(v){if(v==null)return 0;const top=world.ground-96;const m=world.max;let f=state.scale==='log'?Math.log10(v+1)/Math.log10(m+1):v/m;return Math.max(v>0?P*2:0,f*top)}
+function buildWorld(){
+  if(!W)return;const days=series();world.days=days;world.dayW=Math.max(190,Math.min(300,W/3.6));world.ground=H-44;
+  world.max=Math.max(1,...days.flatMap(d=>[d.ai,d.si]).filter(v=>v!=null));
+  const dw=world.dayW,g=world.ground;world.startX=70;const x0=170;world.mts=[];const wps=[{x:world.startX,y:g-56,kind:'pipe'}];
+  days.forEach((d,i)=>{const bx=x0+i*dw;for(const term of ['ai','si']){const cx=snap(bx+dw*(term==='ai'?.3:.7)),h=hFor(d[term]),hw=dw*.21;
+    const m={cx,h,hw,term,day:i,val:d[term],peak:g-snap(h)};world.mts.push(m);wps.push({x:cx,y:m.val==null?g:m.peak,m})}});
+  world.endX=x0+days.length*dw+40;wps.push({x:world.endX,y:g-56,kind:'pipe'});world.wps=wps;
+  if(robot.s>wps.length+1)robot.s=0;
+  if(!robot.started){robot.s=reduce?wps.length-1:1+Math.max(0,wps.length-1-6);robot.started=true;cam=robotPos().x-W*.4}
+}
+const robot={s:0,started:false,lastLand:-1,bubble:null,extra:0,blinkT:0};
+let cam=0,dragging=null,resumeAt=0;
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function robotPos(){const w=world.wps;if(!w.length)return {x:0,y:0,f:'a'};const H1=w.length-1;let s=robot.s;
+  if(s<1){const e=ease(s);return {x:w[0].x,y:w[0].y+40*(1-e),f:'j',hide:1-e}}
+  if(s<1+H1){const k=Math.floor(s-1),p=s-1-k,a=w[k],b=w[k+1];const arc=46+Math.abs(a.y-b.y)*.32;return {x:a.x+(b.x-a.x)*p,y:a.y+(b.y-a.y)*p-arc*4*p*(1-p),f:p<.04||p>.96?'a':'j',k,p}}
+  const e=ease(Math.min(1,s-1-H1));return {x:w[H1].x,y:w[H1].y+40*e,f:'a',hide:e}}
+function currentDay(){const p=robotPos();if(p.k==null)return robot.s<1?0:world.days.length-1;const wp=world.wps[p.p>.5?p.k+1:p.k];return wp?.m?wp.m.day:(p.k<1?0:world.days.length-1)}
+
+let lastT=performance.now(),uiT=0;
+function frame(t){const dt=Math.min(.05,(t-lastT)/1000);lastT=t;
+  const total=world.wps.length+1;
+  if(state.playing&&!dragging&&t>resumeAt&&total>2){const before=robot.s;robot.s+=dt*state.speed/1.05;if(robot.s>=total)robot.s=0;onLand(before,robot.s)}
+  if(robot.extra>0)robot.extra=Math.max(0,robot.extra-dt*1.8);
+  const rp=robotPos();const target=Math.max(0,Math.min(rp.x-W*.42,world.endX+80-W));cam+=(target-cam)*Math.min(1,dt*(dragging?14:3.2));
+  draw(rp);if(t-uiT>120){uiT=t;tickUI()}requestAnimationFrame(frame)}
+function onLand(a,b){const fa=Math.floor(a-1),fb=Math.floor(b-1);if(fb>fa&&fb>=0){const wp=world.wps[fb];if(wp&&wp.m){pops.push({x:wp.x,y:wp.y-50,t:0,txt:(wp.m.term==='ai'?'AI +':'SI +')+compact(wp.m.val)});blip(wp.m.term==='ai'?988:740,.06,'coin');robot.landings=(robot.landings||0)+1;if(robot.landings%7===0)sayFact()}}}
+let pops=[];
+
+function draw(rp){
+  const c=ctx,g=world.ground;c.fillStyle=C.screen;c.fillRect(0,0,W,H);
+  /* parallax clouds + far hills */
+  c.save();c.translate(-Math.round(cam*.35),0);c.fillStyle=C.line;
+  for(let i=-1;i<Math.ceil((world.endX+W)/260)+1;i++){const x=i*260+60,y=70+(i%3)*22;cloud(x,y)}
+  c.restore();
+  c.save();c.translate(-Math.round(cam),0);
+  /* mountains */
+  c.font='8px "Press Start 2P", monospace';c.textAlign='center';c.textBaseline='alphabetic';
+  for(const m of world.mts){if(m.cx+m.hw<cam-20||m.cx-m.hw>cam+W+20)continue;
+    if(m.val==null){qblock(m.cx,g-118);continue}
+    stepped(m.cx,m.h,m.hw,C.ink);if(m.term==='si'&&m.h>P*4){stepped(m.cx,m.h-2*P,m.hw-P*1.5,pat,P)}else if(m.term==='ai'&&m.h>P*8){c.fillStyle=C.screen;const rows=Math.round(m.h/P);for(let r=2;r<rows-2;r+=3){const w=Math.max(P*1.5,snap(m.hw*(1-r/rows)));c.fillRect(m.cx-w+P,g-(r+1)*P,P,P)}}
+    const ly=Math.max(62,m.peak-12);c.fillStyle=C.ink;c.fillText((m.term==='ai'?'AI ':'SI ')+compact(m.val),m.cx,ly);
+    if(state.pin===m.day){c.strokeStyle=C.ink;c.lineWidth=2;c.setLineDash([4,4]);c.strokeRect(m.cx-m.hw-6,Math.min(m.peak,g-60)-28,m.hw*2+12,g-Math.min(m.peak,g-60)+28);c.setLineDash([])}}
+  /* today flag */
+  const td=world.days.length-1;if(td>=0){const fx=170+td*world.dayW+world.dayW*.94;c.fillStyle=C.ink;c.fillRect(fx,g-120,P,120);const wave=reduce?0:Math.sin(performance.now()/200)*2;c.beginPath();c.moveTo(fx+P,g-120);c.lineTo(fx+P+34,g-112+wave);c.lineTo(fx+P,g-102);c.fill();c.fillText('LIVE',fx+2,g-128)}
+  /* pipes */
+  pipe(world.startX,g);pipe(world.endX,g);
+  /* ground */
+  c.fillStyle=C.ink;c.fillRect(cam-10,g,W+20,H-g);c.fillStyle=C.screen;
+  for(let x=Math.floor((cam-10)/32)*32;x<cam+W+32;x+=32){c.fillRect(x,g+14,30,2);c.fillRect(x+16,g+30,30,2);c.fillRect(x,g+2,2,12)}
+  c.fillStyle=C.paper;c.font='8px "Press Start 2P", monospace';
+  world.days.forEach((d,i)=>{const x=170+i*world.dayW+world.dayW*.5;if(x<cam-120||x>cam+W+120)return;c.fillStyle=C.ink;c.fillRect(x-40,g+10,80,22);c.fillStyle=C.paper;c.fillText(d.today?'TODAY':d.label,x,g+25)});
+  /* robot */
+  const s=3,rw=36,rh=39;let bob=rp.f==='a'&&state.playing&&!reduce?((performance.now()/180|0)%2):0;const fr=rp.f==='j'?ROBOT.j:(bob?ROBOT.b:ROBOT.a);
+  const jy=robot.extra?-Math.sin(robot.extra*Math.PI)*46:0;const ry=Math.round(rp.y-rh+jy),rx=Math.round(rp.x-rw/2);
+  robot.blinkT=(robot.blinkT+1)%180;
+  if(rp.hide!=null){c.save();c.beginPath();c.rect(rx-10,0,rw+20,world.wps[0].y+1);c.clip();drawSprite(c,fr,rx,ry,s,C.ink,C.paper,robot.blinkT<6);c.restore()}else drawSprite(c,fr,rx,ry,s,C.ink,C.paper,robot.blinkT<6);
+  robot.box={x:rx,y:ry,w:rw,h:rh};
+  /* score pops */
+  pops=pops.filter(p=>(p.t+=1/60)<1.1);for(const p of pops){c.globalAlpha=Math.max(0,1-p.t);c.fillStyle=C.ink;c.fillText(p.txt,p.x,p.y-p.t*30);c.globalAlpha=1}
+  /* speech bubble */
+  if(robot.bubble&&performance.now()<robot.bubble.until){bubble(robot.bubble.text,rp.x,ry-14)}
+  c.restore();
+  if(!world.wps.length||store[state.src].status==='loading'&&!world.mts.some(m=>m.val!=null)){c.fillStyle=C.ink;c.font='10px "Press Start 2P", monospace';c.textAlign='center';c.fillText('LOADING LEVEL…',W/2,H/2)}
+  function stepped(cx,h,hw,fill,lift=0){const rows=Math.max(1,Math.round(h/P));c.fillStyle=fill;for(let r=0;r<rows;r++){const w=Math.max(P*1.5,snap(hw*(1-r/rows)));c.fillRect(cx-w,g-(r+1)*P-lift+P*0,w*2,P)}}
+  function cloud(x,y){c.fillRect(x,y,64,12);c.fillRect(x+12,y-8,40,8);c.fillRect(x+24,y-14,16,6)}
+  function pipe(x,gy){c.fillStyle=C.ink;c.fillRect(x-22,gy-56,44,56);c.fillRect(x-28,gy-64,56,14);c.fillStyle=C.screen;c.fillRect(x-14,gy-46,4,44);c.fillRect(x-20,gy-60,4,6)}
+  function qblock(x,y){c.fillStyle=C.ink;c.fillRect(x-14,y,28,28);c.fillStyle=C.screen;c.fillRect(x-10,y+4,20,20);c.fillStyle=C.ink;c.font='12px "Press Start 2P", monospace';c.fillText('?',x+1,y+21);c.font='8px "Press Start 2P", monospace';c.fillText(state.src==='wiki'?'TOMORROW':'N/A',x,y-10)}
+  function bubble(text,x,y){c.font='8px "Press Start 2P", monospace';const lines=wrap(text,Math.max(120,Math.min(260,W-60)));const w=Math.max(...lines.map(l=>c.measureText(l).width))+20,h=lines.length*14+14;
+    let bx=Math.min(Math.max(x-w/2,cam+8),cam+W-w-8),by=Math.max(8,y-h-10);c.fillStyle=C.ink;c.fillRect(bx-3,by-3,w+6,h+6);c.fillStyle=C.paper;c.fillRect(bx,by,w,h);c.fillStyle=C.ink;c.fillRect(Math.min(Math.max(x-4,bx+6),bx+w-14),by+h,8,8);
+    c.textAlign='left';lines.forEach((l,i)=>c.fillText(l,bx+10,by+18+i*14));c.textAlign='center'}
+  function wrap(t,max){const out=[];let line='';for(const w of t.split(' ')){const tryL=line?line+' '+w:w;if(c.measureText(tryL).width>max&&line){out.push(line);line=w}else line=tryL}if(line)out.push(line);return out}
+}
+
+/* interactions on canvas */
+function toWorld(e){const r=cv.getBoundingClientRect();return {x:e.clientX-r.left+cam,y:e.clientY-r.top,sx:e.clientX}}
+cv.addEventListener('pointerdown',e=>{dragging={x0:e.clientX,s0:robot.s,moved:false,id:e.pointerId};});
+cv.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-dragging.x0;if(Math.abs(dx)>6){dragging.moved=true;try{cv.setPointerCapture(dragging.id)}catch(_){}}
+  if(dragging.moved){const per=world.dayW/2;robot.s=Math.max(1,Math.min(world.wps.length-1,dragging.s0-dx/per));}});
+const endDrag=e=>{if(!dragging)return;const d=dragging;dragging=null;if(d.moved){resumeAt=performance.now()+2500;return}tap(toWorld(e))};
+cv.addEventListener('pointerup',endDrag);cv.addEventListener('pointercancel',()=>{dragging=null});
+function tap(p){const b=robot.box;if(b&&p.x>=b.x-10&&p.x<=b.x+b.w+10&&p.y>=b.y-10&&p.y<=b.y+b.h+10){jump();return}
+  const hit=world.mts.find(m=>Math.abs(p.x-m.cx)<=m.hw&&p.y>=Math.min(m.peak,world.ground-70)-30&&p.y<=world.ground+30);
+  if(hit){state.pin=state.pin===hit.day?null:hit.day;blip(523,.05);paintInspect();if(state.pin!=null){robot.bubble={text:inspectLine(hit.day),until:performance.now()+2600}}}else{state.pin=null;paintInspect()}}
+function jump(){robot.extra=1;blip(440,.12,'jump');sayFact()}
+cv.addEventListener('keydown',e=>{const n=world.wps.length-1;
+  if(e.key==='ArrowRight'){robot.s=Math.min(n,Math.floor(robot.s)+1);resumeAt=performance.now()+3000;e.preventDefault()}
+  else if(e.key==='ArrowLeft'){robot.s=Math.max(1,Math.ceil(robot.s)-1);resumeAt=performance.now()+3000;e.preventDefault()}
+  else if(e.key===' '||e.key==='ArrowUp'){jump();e.preventDefault()}
+  else if(e.key==='p'||e.key==='P'){state.playing=!state.playing;syncUI()}});
+
+/* ---------- facts + text ---------- */
+function inspectLine(i){const d=world.days[i];if(!d)return '';return `${d.today?'TODAY':d.label}: AI ${compact(d.ai)} · SI ${compact(d.si)} · ${ratioTxt(d.ai,d.si)}`}
+function facts(){const s=series(),full=s.filter(d=>!d.today&&d.ai!=null);const out=[];if(!full.length)return ['Waiting for the first full day of data.'];
+  const peak=full.reduce((a,b)=>b.ai>a.ai?b:a);out.push(`Biggest AI day: ${peak.label} with ${fmt(peak.ai)} ${SRC[state.src].unit}.`);
+  const sp=full.filter(d=>d.si!=null);if(sp.length){const p2=sp.reduce((a,b)=>b.si>a.si?b:a);out.push(`Biggest superintelligence day: ${p2.label} with ${fmt(p2.si)}.`)}
+  const A=full.reduce((t,d)=>t+(d.ai||0),0),S=full.reduce((t,d)=>t+(d.si||0),0);if(S>0)out.push(`Across ${full.length} full days, AI was mentioned ${ratioTxt(A,S).replace(' : 1','')} times for every one superintelligence mention.`);
+  if(full.length>=6){const h=Math.floor(full.length/2),a1=full.slice(0,h),a2=full.slice(-h);const avg=(arr,f)=>arr.reduce((t,d)=>t+(d[f]||0),0)/arr.length;const ch=f=>{const x=avg(a1,f),y=avg(a2,f);return x?Math.round((y-x)/x*100):null};const ca=ch('ai'),cs=ch('si');
+    if(ca!=null)out.push(`Recent days vs earlier days: AI ${ca>=0?'+':''}${ca}%, superintelligence ${cs==null?'n/a':(cs>=0?'+':'')+cs+'%'}.`)}
+  const wk=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w===0||w===6}),wd=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w>0&&w<6});
+  if(wk.length&&wd.length){const a=wk.reduce((t,d)=>t+d.ai,0)/wk.length,b=wd.reduce((t,d)=>t+d.ai,0)/wd.length;if(b)out.push(`Weekends run ${Math.abs(Math.round((a-b)/b*100))}% ${a<b?'quieter':'busier'} than weekdays for AI.`)}
+  return out}
+function sayFact(){const f=facts();robot.bubble={text:f[Math.floor(Math.random()*f.length)].toUpperCase(),until:performance.now()+3200}}
+
+function paintInspect(){const i=state.pin??currentDay();const d=world.days[i];if(!d)return;const prev=world.days[i-1];
+  $('#inTitle').textContent=state.pin!=null?`Pinned: ${d.today?'today':d.label+' UTC'}`:`The robot is standing on ${d.today?'today':d.label+' UTC'}`;
+  $('#inAI').textContent=fmt(d.ai);$('#inSI').textContent=fmt(d.si);$('#inRatio').textContent=ratioTxt(d.ai,d.si);
+  if(d.total){$('#inChangeL').textContent='AI per 10,000 articles';$('#inChange').textContent=(d.ai/d.total*1e4).toFixed(1)}
+  else{$('#inChangeL').textContent='AI vs day before';$('#inChange').textContent=prev&&prev.ai&&d.ai!=null?((d.ai>=prev.ai?'+':'')+Math.round((d.ai-prev.ai)/prev.ai*100)+'%'):'—'}
+  $('#inNote').textContent=d.today?(state.src==='wiki'?'Wikipedia publishes each day’s views the next day.':'Today is still being counted.'):'Tap any mountain to pin a day. Tap it again to let the robot lead.'}
+
+const sentences={
+  news:r=>[`Today, “artificial intelligence” has appeared in about`,r==='us'?'US news articles.':'news articles worldwide.'],
+  wiki:()=>[`Today, the English Wikipedia page on “artificial intelligence” has been opened about`,'times by people around the world.'],
+  hn:()=>[`Today, “artificial intelligence” has come up in about`,'Hacker News posts and comments.']};
+let shown=0,lastShownInt=-1;
+function tickUI(){
+  const src=state.src,st=store[src],s=series(),tk=todayKey();const today=s.at(-1)||{};const rate=paceRate(src);
+  const secs=(Date.now()-dateOf(tk).getTime())/1000;let est=rate?rate.ai*secs:null;let estSI=rate?rate.si*secs:null;
+  const aiNow=Math.max(est??0,today.ai??0),siNow=Math.max(estSI??0,today.si??0);
+  shown=shown+(aiNow-shown)*(shown===0?1:.35);const iv=Math.floor(shown);const tkEl=$('#ticker');
+  if(iv!==lastShownInt){const str=iv.toLocaleString('en-US');const old=tkEl.dataset.v||'';tkEl.innerHTML=[...str].map((ch,i)=>`<span class="tick${old[i]!==ch&&old.length===str.length?' bump':''}">${ch}</span>`).join('');tkEl.dataset.v=str;lastShownInt=iv}
+  $('#dAI').textContent=compact(aiNow);$('#dSI').textContent=compact(siNow);$('#dRatio').textContent=ratioTxt(aiNow,siNow);
+  const share=aiNow+siNow?aiNow/(aiNow+siNow):.5;$('#dBar').style.width=(share*100).toFixed(1)+'%';
+  $('#hTime').textContent=new Date(DAY-(Date.now()%DAY)).toISOString().slice(11,19);
+  const cd=world.days[state.pin??currentDay()];if(cd){$('#hAI').textContent=compact(cd.ai);$('#hSI').textContent=compact(cd.si);$('#hDay').textContent=cd.today?'TODAY':cd.label}
+  if(state.pin==null)paintInspect()}
+
+function refresh(){
+  const st=store[state.src],reg=regOf(state.src);const geoOk=SRC[state.src].geo;
+  document.querySelectorAll('#segRegion button').forEach(b=>{b.disabled=!geoOk&&b.dataset.v==='us';b.title=b.disabled?'This level has no country split':''});
+  const [a,b]=sentences[state.src](reg);$('#sentence').textContent=a;$('#sentence2').textContent=b;
+  $('#levelTag').textContent=`World ${SRC[state.src].n}-${reg==='us'?'2':'1'} · ${SRC[state.src].full}${!geoOk&&state.region==='us'?' · global only':''}`;
+  $('#hWorldL').textContent=`World ${SRC[state.src].n}-${reg==='us'?'2':'1'}`;
+  $('#liveTag').textContent=st.status==='live'?'Live':st.status==='sample'?'Sample data':'Loading';
+  const rate=paceRate(state.src);const t=series().at(-1);
+  $('#tickerNote').textContent=st.status==='sample'?'Sample numbers: this level’s live source can’t be reached from here. On the public site these are real counts.':
+    st.status==='loading'?'Loading the latest counts…':`Live pace estimate from the last ${rate?rate.n:0} full days · measured so far today: ${t&&t.ai!=null?fmt(t.ai):'not published yet'} · checked ${st.checked?st.checked.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'—'}`;
+  buildWorld();paintInspect();
+  $('#facts').innerHTML=facts().map(f=>`<li>${f.replace(/</g,'&lt;')}</li>`).join('');
+  $('#tbody').innerHTML=series(state.src,30).slice().reverse().map(d=>`<tr><td>${d.label}${d.today?' (today)':''}</td><td>${fmt(d.ai)}</td><td>${fmt(d.si)}</td><td>${ratioTxt(d.ai,d.si)}</td></tr>`).join('');
+  cards();
+  const stat=Object.entries(store).map(([k,v])=>`${SRC[k].name}: ${v.status}`).join(' · ');$('#foot').textContent=stat;
+}
+function spark(vals){const v=vals.map(x=>x??0);const m=Math.max(1,...v);const n=v.length;return v.map((y,i)=>`${(i/(n-1||1)*100).toFixed(1)},${(36-y/m*32).toFixed(1)}`).join(' ')}
+function cards(){$('#cards').innerHTML=Object.keys(SRC).map(k=>{const s=series(k,14),st=store[k];const last=s.filter(d=>d.ai!=null).at(-1)||{};
+  return `<button type="button" class="card" data-src="${k}" aria-pressed="${k===state.src}">
+  <div class="card-top"><span class="world">WORLD ${SRC[k].n}</span><span class="badge">${st.status==='live'?'Live':st.status==='sample'?'Sample':'…'}</span></div>
+  <h3>${SRC[k].full}</h3><span class="muted">${SRC[k].geo?'World or USA':'Global only'} · latest ${last.key?(last.today?'today':last.label):'—'}</span>
+  <div class="pair"><div><span class="muted">AI</span><b class="num">${compact(last.ai)}</b></div><div><span class="muted">SI</span><b class="num">${compact(last.si)}</b></div></div>
+  <svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><polyline points="${spark(s.map(d=>d.ai))}" fill="none" stroke="currentColor" stroke-width="2.5" vector-effect="non-scaling-stroke"/><polyline points="${spark(s.map(d=>d.si))}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/></svg>
+  </button>`}).join('');
+  document.querySelectorAll('.card').forEach(b=>b.onclick=()=>{state.src=b.dataset.src;state.pin=null;blip(660,.05);syncUI();refresh();$('#scene').scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})})}
+
+/* ---------- live wire: Bluesky Jetstream (seconds) + Hacker News (every 15s) ---------- */
+const LIVE={on:true,ai:0,si:0,t0:Date.now(),langs:{},stamps:[],ws:null,host:0,retry:0,hnMax:null,hnTimer:null,state:''};
+const JET=['jetstream2.us-east.bsky.network','jetstream1.us-east.bsky.network','jetstream1.us-west.bsky.network','jetstream2.us-west.bsky.network'];
+const RX_AI=/artificial[\s-]+intelligence/i, RX_SI=/super[\s-]?intelligen/i;
+const LANG=(()=>{try{return new Intl.DisplayNames(['en'],{type:'language'})}catch(e){return null}})();
+const langName=c=>{if(!c)return 'unknown';try{return (LANG&&LANG.of(c))||c}catch(e){return c}};
+try{if(navigator.connection&&navigator.connection.saveData)LIVE.on=false}catch(e){}
+if(ls.get('amm-live')==='off')LIVE.on=false;
+function wireState(t){LIVE.state=t;$('#wState').textContent=t}
+function mention(term,lang,url,via){
+  LIVE[term]++;LIVE.stamps.push(Date.now());const L=(lang||'').split('-')[0].toLowerCase();if(L)LIVE.langs[L]=(LIVE.langs[L]||0)+1;
+  $('#wAI').textContent=LIVE.ai.toLocaleString('en-US');$('#wSI').textContent=LIVE.si.toLocaleString('en-US');$('#wTotal').textContent=(LIVE.ai+LIVE.si).toLocaleString('en-US');
+  $('#wLangs').textContent=Object.keys(LIVE.langs).length;
+  const f=$('#feed');f.querySelector('.empty')?.remove();const a=document.createElement('a');a.className='new'+(term==='si'?' si':'');a.href=url;a.target='_blank';a.rel='noopener nofollow';
+  a.textContent=`${term==='ai'?'AI':'SI'} · ${via==='hn'?'Hacker News':langName(L)} · ${new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit',second:'2-digit'})}`;
+  f.prepend(a);while(f.children.length>14)f.lastChild.remove();
+  const rp=robotPos();pops.push({x:rp.x,y:rp.y-60,t:0,txt:(term==='ai'?'AI +1 ':'SI +1 ')+(via==='hn'?'HN':(L||'').toUpperCase())});
+  if(!dragging){robot.extra=1}blip(term==='ai'?1046:784,.05,'coin')}
+function liveTick(){const now=Date.now();LIVE.stamps=LIVE.stamps.filter(t=>now-t<300000);const mins=Math.min(5,(now-LIVE.t0)/60000);
+  $('#wRate').textContent=mins>.5?(LIVE.stamps.length/mins).toFixed(1):'—';
+  const m=Math.floor((now-LIVE.t0)/60000);$('#wSince').textContent=`mentions since you arrived ${m<1?'just now':m+' min ago'}`}
+function jetConnect(){
+  if(!LIVE.on||document.hidden||LIVE.ws)return;
+  const host=JET[LIVE.host%JET.length];let ws;
+  try{ws=new WebSocket(`wss://${host}/subscribe?wantedCollections=app.bsky.feed.post`)}catch(e){wireState('Live feed unavailable here');return}
+  LIVE.ws=ws;wireState('Connecting to Bluesky…');
+  ws.onopen=()=>{LIVE.retry=0;wireState('Listening to every new Bluesky post')};
+  ws.onmessage=ev=>{let m;try{m=JSON.parse(ev.data)}catch(e){return}const c=m&&m.commit;if(!c||c.operation!=='create'||!c.record)return;const t=c.record.text;if(!t||t.length<12)return;
+    const isAI=RX_AI.test(t),isSI=RX_SI.test(t);if(!isAI&&!isSI)return;const url=`https://bsky.app/profile/${m.did}/post/${c.rkey}`;const lang=(c.record.langs||[])[0];
+    if(isAI)mention('ai',lang,url,'bsky');if(isSI)mention('si',lang,url,'bsky')};
+  ws.onclose=()=>{LIVE.ws=null;if(!LIVE.on||document.hidden){wireState(LIVE.on?'Paused while this tab is hidden':'Live feed is off');return}
+    LIVE.retry++;LIVE.host++;const wait=Math.min(30000,1500*2**Math.min(LIVE.retry,5));wireState(LIVE.retry>4?'Bluesky stream not reachable · retrying':'Reconnecting…');setTimeout(jetConnect,wait)};
+  ws.onerror=()=>{try{ws.close()}catch(e){}};
+}
+function jetClose(){if(LIVE.ws){const w=LIVE.ws;LIVE.ws=null;w.onclose=null;try{w.close()}catch(e){}}}
+async function hnPoll(){
+  if(!LIVE.on||document.hidden)return;
+  try{const max=await getJSON('https://hacker-news.firebaseio.com/v0/maxitem.json',8000);if(!Number.isInteger(max))return;
+    if(LIVE.hnMax==null){LIVE.hnMax=max;return}
+    const ids=[];for(let i=Math.max(LIVE.hnMax+1,max-60);i<=max;i++)ids.push(i);LIVE.hnMax=max;
+    const items=await pool(ids.map(id=>()=>getJSON(`https://hacker-news.firebaseio.com/v0/item/${id}.json`,8000)),6);
+    for(const r of items){if(!r.ok||!r.v||r.v.deleted||r.v.dead)continue;const t=(r.v.title||'')+' '+(r.v.text||'');const url=`https://news.ycombinator.com/item?id=${r.v.id}`;
+      if(RX_AI.test(t))mention('ai','en',url,'hn');if(RX_SI.test(t))mention('si','en',url,'hn')}
+  }catch(e){}}
+function liveSet(on){LIVE.on=on;ls.set('amm-live',on?'on':'off');$('#wireBtn').textContent=on?'Live: on':'Live: off';$('#wireBtn').setAttribute('aria-pressed',String(on));$('#wire').classList.toggle('off',!on);
+  if(on){jetConnect();hnPoll()}else{jetClose();wireState('Live feed is off · turn it on to watch mentions arrive')}}
+$('#wireBtn').onclick=()=>liveSet(!LIVE.on);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){jetClose();if(LIVE.on)wireState('Paused while this tab is hidden')}else if(LIVE.on){jetConnect()}});
+setInterval(liveTick,1000);setInterval(hnPoll,15000);
+
+/* ---------- boot ---------- */
+readColors();syncUI();
+window.addEventListener('resize',()=>{resize()});
+(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{resize();refresh()});
+resize();refresh();requestAnimationFrame(frame);
+loadNews();loadWiki();loadHN(false);liveSet(LIVE.on);
+setInterval(()=>loadHN(true),60000);setInterval(loadNews,10*60000);setInterval(loadWiki,60*60000);
+setInterval(()=>{if(series().at(-1)?.key!==world.days.at(-1)?.key)refresh()},30000);
+})();
+</script>
+
+</html>

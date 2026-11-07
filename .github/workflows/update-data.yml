@@ -1,7 +1,11 @@
 name: Publish AI Mountain Man
+# Free on public repos: refreshes the news counts every 30 minutes and redeploys Pages.
+# Nothing is committed back to the repo; history is carried forward from the live site.
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '7,37 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,6 +17,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -20,7 +25,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: actions/configure-pages@v5
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Carry forward published history
+        run: |
+          mkdir -p data
+          curl -fsSL "${{ steps.pages.outputs.base_url }}/data/gdelt.json" -o data/gdelt.json || rm -f data/gdelt.json
+      - name: Fetch GDELT news counts (world + US)
+        continue-on-error: true
+        run: python3 fetch_gdelt.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
