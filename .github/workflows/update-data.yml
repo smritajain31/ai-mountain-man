@@ -28,9 +28,16 @@ jobs:
           if python3 -c 'import json; d=json.load(open("data/gdelt.json.tmp")); assert d.get("days") and d.get("updated_at")' 2>/dev/null; then mv data/gdelt.json.tmp data/gdelt.json; else rm -f data/gdelt.json.tmp; fi
       - name: Fetch GDELT news counts
         run: python3 fetch_gdelt.py || echo 'Update unavailable; preserving last available data.'
+      - name: Check whether valid data is available
+        id: data_check
+        run: |
+          if test -s data/gdelt.json; then echo 'available=true' >> "$GITHUB_OUTPUT"; else echo 'available=false' >> "$GITHUB_OUTPUT"; echo 'No valid data available; leaving the published site unchanged.'; fi
       - uses: actions/configure-pages@v5
+        if: steps.data_check.outputs.available == 'true'
       - uses: actions/upload-pages-artifact@v3
+        if: steps.data_check.outputs.available == 'true'
         with:
           path: '.'
       - id: deployment
+        if: steps.data_check.outputs.available == 'true'
         uses: actions/deploy-pages@v4
