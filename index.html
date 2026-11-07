@@ -185,14 +185,14 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
 
   <section class="hero">
     <div>
-      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 1-1 · Bluesky posts</span></div>
+      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 2-1 · Bluesky posts</span></div>
       <p class="sentence" id="sentence">Today, “artificial intelligence” has been written in about</p>
       <span class="ticker num" id="ticker" aria-label="AI count today">0</span>
       <p class="sentence" id="sentence2">times on Bluesky, in every language.</p>
       <p class="sub" id="tickerNote" style="margin-top:12px">Loading the latest counts…</p>
     </div>
     <div class="duel" aria-label="Artificial intelligence versus superintelligence today">
-      <div class="lbl">Today’s duel</div>
+      <div class="lbl">Leaderboard</div>
       <div class="duel-row"><span class="sw"></span><span>Artificial intelligence</span><b class="num" id="dAI">—</b></div>
       <div class="duel-row"><span class="sw si"></span><span>Superintelligence</span><b class="num" id="dSI">—</b></div>
       <div class="bar" aria-hidden="true"><span id="dBar" style="width:50%"></span></div>
@@ -222,7 +222,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
     <canvas id="scene" tabindex="0" role="img" aria-label="Pixel robot jumping across daily mountains. Black mountains are artificial intelligence, checkered mountains are superintelligence. Tap a mountain to inspect a day."></canvas>
     <div class="deck">
       <div class="ctl"><span>Language</span><div class="seg" id="segRegion"><button type="button" data-v="world">All</button><button type="button" data-v="en">English</button></div></div>
-      <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="sky">1 · Bluesky</button><button type="button" data-v="wiki">2 · Wiki</button><button type="button" data-v="hn">3 · HN</button></div></div>
+      <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="wiki">1 · Wiki</button><button type="button" data-v="sky">2 · Bluesky</button><button type="button" data-v="hn">3 · Hacker News</button></div></div>
       <div class="ctl"><span>Days</span><div class="seg" id="segRange"><button type="button" data-v="7">7</button><button type="button" data-v="14">14</button><button type="button" data-v="30">30</button></div></div>
       <div class="ctl"><span>Height</span><div class="seg" id="segScale"><button type="button" data-v="linear">Real</button><button type="button" data-v="log">Log</button></div></div>
       <div class="grow"></div>
@@ -269,10 +269,9 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
     <div>
       <h3>How it counts</h3>
       <ul>
-        <li><b>1 · Bluesky</b> counts new public Bluesky posts that use each term, from the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed. A free GitHub Action listens for 30 minutes every hour and turns that sample into daily estimates. English uses each post’s language tag.</li>
-        <li><b>2 · Wiki</b> counts human page views of the English Wikipedia articles <i>Artificial intelligence</i> and <i>Superintelligence</i> (<a href="https://wikimedia.org/api/rest_v1/" target="_blank" rel="noopener">Wikimedia API</a>). Counts arrive a day late and have no country split.</li>
-        <li><b>Live wire</b> watches every new public Bluesky post through the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed, plus new Hacker News items every 15 seconds. It counts only while this page is open and pauses when the tab is hidden.</li>
-        <li><b>3 · HN</b> counts Hacker News posts and comments, via <a href="https://hn.algolia.com/" target="_blank" rel="noopener">HN Search by Algolia</a>. Global only.</li>
+        <li><b>1 · Wiki</b> counts human page views of the English Wikipedia articles <i>Artificial intelligence</i> and <i>Superintelligence</i> (<a href="https://wikimedia.org/api/rest_v1/" target="_blank" rel="noopener">Wikimedia API</a>). Counts arrive a day late and have no country split.</li>
+        <li><b>2 · Bluesky</b> counts new public Bluesky posts that use each term, from the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed. A free GitHub Action listens for 30 minutes every hour and turns that sample into daily estimates. English uses each post’s language tag. The live wire also watches new public posts while this page is open and pauses when the tab is hidden.</li>
+        <li><b>3 · Hacker News</b> counts Hacker News posts and comments, via <a href="https://hn.algolia.com/" target="_blank" rel="noopener">Hacker News Search by Algolia</a>. Global only. The live wire checks for new items every 15 seconds while this page is open and pauses when the tab is hidden.</li>
       </ul>
     </div>
     <div>
@@ -307,9 +306,9 @@ let storeOK=true;const ls={get(k){try{return localStorage.getItem(k)}catch(e){re
 
 /* ---------- state ---------- */
 const SRC={
-  sky:{n:'1',name:'Bluesky',full:'Bluesky posts',geo:true,unit:'posts'},
-  wiki:{n:'2',name:'Wiki',full:'Wikipedia lookups',geo:false,unit:'page views'},
-  hn:{n:'3',name:'HN',full:'Hacker News talk',geo:false,unit:'posts & comments'}
+  wiki:{n:'1',name:'Wiki',full:'Wikipedia lookups',geo:false,unit:'page views'},
+  sky:{n:'2',name:'Bluesky',full:'Bluesky posts',geo:true,unit:'posts'},
+  hn:{n:'3',name:'Hacker News',full:'Hacker News talk',geo:false,unit:'posts & comments'}
 };
 const state={src:'sky',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
 (function readHash(){const p=(location.hash||'').slice(1).split('-');if(SRC[p[0]])state.src=p[0];if(p[1]==='en'||p[1]==='world')state.region=p[1];if(['7','14','30'].includes(p[2]))state.range=+p[2];if(p[3]==='log'||p[3]==='linear')state.scale=p[3]})();
