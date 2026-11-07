@@ -185,10 +185,10 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
 
   <section class="hero">
     <div>
-      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 1-1 · News</span></div>
+      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 1-1 · Bluesky posts</span></div>
       <p class="sentence" id="sentence">Today, “artificial intelligence” has been written in about</p>
       <span class="ticker num" id="ticker" aria-label="AI count today">0</span>
-      <p class="sentence" id="sentence2">news articles worldwide.</p>
+      <p class="sentence" id="sentence2">times on Bluesky, in every language.</p>
       <p class="sub" id="tickerNote" style="margin-top:12px">Loading the latest counts…</p>
     </div>
     <div class="duel" aria-label="Artificial intelligence versus superintelligence today">
@@ -221,8 +221,8 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
     </div>
     <canvas id="scene" tabindex="0" role="img" aria-label="Pixel robot jumping across daily mountains. Black mountains are artificial intelligence, checkered mountains are superintelligence. Tap a mountain to inspect a day."></canvas>
     <div class="deck">
-      <div class="ctl"><span>Where</span><div class="seg" id="segRegion"><button type="button" data-v="world">World</button><button type="button" data-v="us">USA</button></div></div>
-      <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="news">1 · News</button><button type="button" data-v="wiki">2 · Wiki</button><button type="button" data-v="hn">3 · HN</button></div></div>
+      <div class="ctl"><span>Language</span><div class="seg" id="segRegion"><button type="button" data-v="world">All</button><button type="button" data-v="en">English</button></div></div>
+      <div class="ctl"><span>Level</span><div class="seg" id="segSrc"><button type="button" data-v="sky">1 · Bluesky</button><button type="button" data-v="wiki">2 · Wiki</button><button type="button" data-v="hn">3 · HN</button></div></div>
       <div class="ctl"><span>Days</span><div class="seg" id="segRange"><button type="button" data-v="7">7</button><button type="button" data-v="14">14</button><button type="button" data-v="30">30</button></div></div>
       <div class="ctl"><span>Height</span><div class="seg" id="segScale"><button type="button" data-v="linear">Real</button><button type="button" data-v="log">Log</button></div></div>
       <div class="grow"></div>
@@ -269,7 +269,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
     <div>
       <h3>How it counts</h3>
       <ul>
-        <li><b>1 · News</b> counts news articles that contain each term, refreshed every 30 minutes, from the <a href="https://www.gdeltproject.org/" target="_blank" rel="noopener">GDELT Project</a>. USA uses US-based outlets only.</li>
+        <li><b>1 · Bluesky</b> counts new public Bluesky posts that use each term, from the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed. A free GitHub Action listens for 30 minutes every hour and turns that sample into daily estimates. English uses each post’s language tag.</li>
         <li><b>2 · Wiki</b> counts human page views of the English Wikipedia articles <i>Artificial intelligence</i> and <i>Superintelligence</i> (<a href="https://wikimedia.org/api/rest_v1/" target="_blank" rel="noopener">Wikimedia API</a>). Counts arrive a day late and have no country split.</li>
         <li><b>Live wire</b> watches every new public Bluesky post through the free <a href="https://github.com/bluesky-social/jetstream" target="_blank" rel="noopener">Jetstream</a> feed, plus new Hacker News items every 15 seconds. It counts only while this page is open and pauses when the tab is hidden.</li>
         <li><b>3 · HN</b> counts Hacker News posts and comments, via <a href="https://hn.algolia.com/" target="_blank" rel="noopener">HN Search by Algolia</a>. Global only.</li>
@@ -278,7 +278,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
     <div>
       <h3>Reading it fairly</h3>
       <p>These are samples of public attention, not every word typed on Earth. The big ticker is a live pace estimate: the last three full days’ average, spread across today and never below today’s measured count. Days are UTC.</p>
-      <p>Built for $0: a static GitHub Pages site, a free scheduled GitHub Action and keyless public APIs.</p>
+      <p>Built for $0: a static GitHub Pages site, a free hourly GitHub Action that samples Bluesky, and keyless public APIs. No GDELT, no paid services.</p>
     </div>
   </section>
   <footer class="lbl"><span>© 2026 Smrita Jain</span><span id="foot">Checking sources…</span></footer>
@@ -307,18 +307,18 @@ let storeOK=true;const ls={get(k){try{return localStorage.getItem(k)}catch(e){re
 
 /* ---------- state ---------- */
 const SRC={
-  news:{n:'1',name:'News',full:'News articles',geo:true,unit:'articles'},
+  sky:{n:'1',name:'Bluesky',full:'Bluesky posts',geo:true,unit:'posts'},
   wiki:{n:'2',name:'Wiki',full:'Wikipedia lookups',geo:false,unit:'page views'},
   hn:{n:'3',name:'HN',full:'Hacker News talk',geo:false,unit:'posts & comments'}
 };
-const state={src:'news',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
-(function readHash(){const p=(location.hash||'').slice(1).split('-');if(SRC[p[0]])state.src=p[0];if(p[1]==='us'||p[1]==='world')state.region=p[1];if(['7','14','30'].includes(p[2]))state.range=+p[2];if(p[3]==='log'||p[3]==='linear')state.scale=p[3]})();
-const store={};for(const s in SRC)store[s]={status:'loading',checked:null,series:{world:{},us:{}},note:''};
+const state={src:'sky',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
+(function readHash(){const p=(location.hash||'').slice(1).split('-');if(SRC[p[0]])state.src=p[0];if(p[1]==='en'||p[1]==='world')state.region=p[1];if(['7','14','30'].includes(p[2]))state.range=+p[2];if(p[3]==='log'||p[3]==='linear')state.scale=p[3]})();
+const store={};for(const s in SRC)store[s]={status:'loading',checked:null,series:{world:{},en:{}},note:''};
 
 /* ---------- sample data (only used when a live source can't be reached) ---------- */
 function hash(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return (h>>>0)/4294967296}
 function sampleFill(src){
-  const base={news:{world:[30000,240],us:[11500,105]},wiki:{world:[8800,620]},hn:{world:[170,9]}}[src];
+  const base={sky:{world:[2600,170],en:[1500,95]},wiki:{world:[8800,620]},hn:{world:[170,9]}}[src];
   const tk=todayKey(),now=new Date(),frac=(now-dateOf(tk))/DAY;
   for(const reg in base){const out={};for(const k of lastKeys(40)){const dow=dateOf(k).getUTCDay(),wf=(dow===0||dow===6)?.72:1;
     let ai=Math.round(base[reg][0]*(.78+.5*hash(k+src+reg))*wf),si=Math.round(base[reg][1]*(.5+1.1*hash(k+src+reg+'s'))*wf);
@@ -352,31 +352,21 @@ async function loadWiki(){
     store.wiki.series.world=ser;store.wiki.status='live';store.wiki.checked=new Date();
   }catch(e){if(store.wiki.status!=='live')sampleFill('wiki')}finally{refresh()}
 }
-function parseGdelt(j){const tl=j.timeline||[];const s=tl.find(x=>!/total|all/i.test(x.series||''))||tl[0];if(!s||!Array.isArray(s.data))throw Error('bad');const out={};for(const p of s.data){const k=String(p.date).slice(0,8);if(!/^\d{8}$/.test(k))continue;out[k]=out[k]||{v:0,n:0};out[k].v+=+p.value||0;out[k].n+=+p.norm||0}return out}
-async function loadNews(){
+async function loadSky(){
   try{
-    let days=null,updated=null;
-    try{const j=await getJSON('data/gdelt.json?'+Date.now(),8000);days=j.days;updated=j.updated_at}catch(e){}
-    if(days&&Object.keys(days).length){
-      for(const reg of ['world','us']){const ser={};for(const k in days){const d=days[k][reg];if(d)ser[k]={ai:d.ai??null,si:d.si??null,total:d.total??null}}store.news.series[reg]=ser}
-      store.news.status='live';store.news.checked=updated?new Date(updated):new Date();store.news.note='Collected every 30 minutes';
-    }else{
-      /* direct browser fallback: GDELT asks for one request every 5 seconds */
-      const q=(t,us)=>'https://api.gdeltproject.org/api/v2/doc/doc?'+new URLSearchParams({query:t+(us?' sourcecountry:US':''),mode:'timelinevolraw',timespan:'30d',format:'json'});
-      let any=false;
-      for(const reg of ['world','us']){const ser={};
-        for(const [term,key] of [['"artificial intelligence"','ai'],['superintelligence','si']]){
-          try{const p=parseGdelt(await getJSON(q(term,reg==='us'),20000));any=true;for(const k in p){ser[k]=ser[k]||{ai:null,si:null,total:null};ser[k][key]=p[k].v;if(key==='ai')ser[k].total=p[k].n||null}}catch(e){if(!any)throw e}
-          await sleep(5600)}
-        store.news.series[reg]=ser;if(any){store.news.status='live';refresh()}}
-      if(!any)throw Error('none');store.news.checked=new Date();store.news.note='Fetched directly';
-    }
-  }catch(e){if(store.news.status!=='live')sampleFill('news')}finally{refresh()}
+    const j=await getJSON('data/bluesky.json?'+Date.now(),8000);const hrs=j.hours||{};if(!Object.keys(hrs).length)throw Error('empty');
+    const tk=todayKey(),soFar=Math.max(1,(Date.now()-dateOf(tk).getTime())/1000);
+    for(const reg of ['world','en']){const sx=reg==='en'?'_en':'';const agg={};
+      for(const h in hrs){const d=hrs[h];if(!d||!d.secs)continue;const k=h.slice(0,8);const a=agg[k]=agg[k]||{secs:0,ai:0,si:0,posts:0};a.secs+=d.secs;a.ai+=d['ai'+sx]||0;a.si+=d['si'+sx]||0;a.posts+=d['posts'+sx]||0}
+      const ser={};for(const k in agg){const a=agg[k],span=k===tk?soFar:86400,f=Math.max(1,span/a.secs);
+        ser[k]={ai:Math.round(a.ai*f),si:Math.round(a.si*f),total:Math.round(a.posts*f),cov:Math.min(1,a.secs/span)}}
+      store.sky.series[reg]=ser}
+    store.sky.langs=j.langs||{};store.sky.status='live';store.sky.checked=new Date(j.updated_at||Date.now());
+  }catch(e){if(store.sky.status!=='live')sampleFill('sky')}finally{refresh()}
 }
-
 /* ---------- derived series ---------- */
 const regOf=src=>SRC[src].geo?state.region:'world';
-function series(src=state.src,n=state.range){const ser=store[src].series[regOf(src)]||{};return lastKeys(n).map(k=>({key:k,label:label(k),ai:ser[k]?.ai??null,si:ser[k]?.si??null,total:ser[k]?.total??null,today:k===todayKey()}))}
+function series(src=state.src,n=state.range){const ser=store[src].series[regOf(src)]||{};return lastKeys(n).map(k=>({key:k,label:label(k),ai:ser[k]?.ai??null,si:ser[k]?.si??null,total:ser[k]?.total??null,cov:ser[k]?.cov??null,today:k===todayKey()}))}
 function paceRate(src){const ser=store[src].series[regOf(src)]||{};const tk=todayKey();const full=Object.keys(ser).filter(k=>k<tk&&ser[k].ai!=null).sort().slice(-3);
   if(!full.length)return null;const avg=f=>full.reduce((s,k)=>s+(ser[k][f]||0),0)/full.length;return {ai:avg('ai')/86400,si:avg('si')/86400,n:full.length}}
 
@@ -404,7 +394,7 @@ setThemeBtn();
 /* toast + share + csv */
 let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,2200)}
 async function copy(text,ok){try{await navigator.clipboard.writeText(text);toast(ok)}catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();let done=false;try{done=document.execCommand('copy')}catch(_){}ta.remove();toast(done?ok:'Copy blocked here — select the text manually')}}
-$('#shareBtn').onclick=async()=>{const s=series(),t=s.at(-1);const text=`Today on AI Mountain Man: "artificial intelligence" ${compact(t.ai)} vs "superintelligence" ${compact(t.si)} (${SRC[state.src].full}, ${regOf(state.src)==='us'?'USA':'World'}).`;
+$('#shareBtn').onclick=async()=>{const s=series(),t=s.at(-1);const text=`Today on AI Mountain Man: "artificial intelligence" ${compact(t.ai)} vs "superintelligence" ${compact(t.si)} (${SRC[state.src].full}, ${regOf(state.src)==='en'?'English':'all languages'}).`;
   try{if(navigator.share){await navigator.share({title:'AI Mountain Man',text,url:location.href});return}}catch(e){if(e&&e.name==='AbortError')return}copy(text+' '+location.href,'Link copied')};
 function csv(){const s=series(state.src,30);return ['date_utc,artificial_intelligence,superintelligence,source,region'].concat(s.map(d=>[d.key,d.ai??'',d.si??'',SRC[state.src].full,regOf(state.src)].join(','))).join('\n')}
 $('#copyCsv').onclick=()=>copy(csv(),'CSV copied');
@@ -533,18 +523,19 @@ function facts(){const s=series(),full=s.filter(d=>!d.today&&d.ai!=null);const o
     if(ca!=null)out.push(`Recent days vs earlier days: AI ${ca>=0?'+':''}${ca}%, superintelligence ${cs==null?'n/a':(cs>=0?'+':'')+cs+'%'}.`)}
   const wk=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w===0||w===6}),wd=full.filter(d=>{const w=dateOf(d.key).getUTCDay();return w>0&&w<6});
   if(wk.length&&wd.length){const a=wk.reduce((t,d)=>t+d.ai,0)/wk.length,b=wd.reduce((t,d)=>t+d.ai,0)/wd.length;if(b)out.push(`Weekends run ${Math.abs(Math.round((a-b)/b*100))}% ${a<b?'quieter':'busier'} than weekdays for AI.`)}
+  if(state.src==='sky'&&store.sky.langs){const L=store.sky.langs[todayKey()]||store.sky.langs[Object.keys(store.sky.langs).sort().at(-1)];if(L){const top=Object.entries(L).filter(([k])=>k!=='unknown').sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k])=>langName(k));if(top.length)out.push(`Top languages for these posts lately: ${top.join(', ')}.`)}}
   return out}
 function sayFact(){const f=facts();robot.bubble={text:f[Math.floor(Math.random()*f.length)].toUpperCase(),until:performance.now()+3200}}
 
 function paintInspect(){const i=state.pin??currentDay();const d=world.days[i];if(!d)return;const prev=world.days[i-1];
   $('#inTitle').textContent=state.pin!=null?`Pinned: ${d.today?'today':d.label+' UTC'}`:`The robot is standing on ${d.today?'today':d.label+' UTC'}`;
   $('#inAI').textContent=fmt(d.ai);$('#inSI').textContent=fmt(d.si);$('#inRatio').textContent=ratioTxt(d.ai,d.si);
-  if(d.total){$('#inChangeL').textContent='AI per 10,000 articles';$('#inChange').textContent=(d.ai/d.total*1e4).toFixed(1)}
+  if(d.total){$('#inChangeL').textContent='AI per 10,000 '+SRC[state.src].unit;$('#inChange').textContent=(d.ai/d.total*1e4).toFixed(1)}
   else{$('#inChangeL').textContent='AI vs day before';$('#inChange').textContent=prev&&prev.ai&&d.ai!=null?((d.ai>=prev.ai?'+':'')+Math.round((d.ai-prev.ai)/prev.ai*100)+'%'):'—'}
-  $('#inNote').textContent=d.today?(state.src==='wiki'?'Wikipedia publishes each day’s views the next day.':'Today is still being counted.'):'Tap any mountain to pin a day. Tap it again to let the robot lead.'}
+  $('#inNote').textContent=(d.cov!=null&&store[state.src].status==='live'?`Estimated from ${Math.round(d.cov*100)}% of the ${d.today?'day so far':'day'}, sampled live. `:'')+(d.today?(state.src==='wiki'?'Wikipedia publishes each day’s views the next day.':'Today is still being counted.'):'Tap any mountain to pin a day. Tap it again to let the robot lead.')}
 
 const sentences={
-  news:r=>[`Today, “artificial intelligence” has appeared in about`,r==='us'?'US news articles.':'news articles worldwide.'],
+  sky:r=>[`Today, “artificial intelligence” has been posted about`,r==='en'?'times on Bluesky in English.':'times on Bluesky, in every language.'],
   wiki:()=>[`Today, the English Wikipedia page on “artificial intelligence” has been opened about`,'times by people around the world.'],
   hn:()=>[`Today, “artificial intelligence” has come up in about`,'Hacker News posts and comments.']};
 let shown=0,lastShownInt=-1;
@@ -562,14 +553,14 @@ function tickUI(){
 
 function refresh(){
   const st=store[state.src],reg=regOf(state.src);const geoOk=SRC[state.src].geo;
-  document.querySelectorAll('#segRegion button').forEach(b=>{b.disabled=!geoOk&&b.dataset.v==='us';b.title=b.disabled?'This level has no country split':''});
+  document.querySelectorAll('#segRegion button').forEach(b=>{b.disabled=!geoOk&&b.dataset.v==='en';b.title=b.disabled?'This level has no language split':''});
   const [a,b]=sentences[state.src](reg);$('#sentence').textContent=a;$('#sentence2').textContent=b;
-  $('#levelTag').textContent=`World ${SRC[state.src].n}-${reg==='us'?'2':'1'} · ${SRC[state.src].full}${!geoOk&&state.region==='us'?' · global only':''}`;
-  $('#hWorldL').textContent=`World ${SRC[state.src].n}-${reg==='us'?'2':'1'}`;
+  $('#levelTag').textContent=`World ${SRC[state.src].n}-${reg==='en'?'2':'1'} · ${SRC[state.src].full}${!geoOk&&state.region==='en'?' · all languages only':''}`;
+  $('#hWorldL').textContent=`World ${SRC[state.src].n}-${reg==='en'?'2':'1'}`;
   $('#liveTag').textContent=st.status==='live'?'Live':st.status==='sample'?'Sample data':'Loading';
   const rate=paceRate(state.src);const t=series().at(-1);
   $('#tickerNote').textContent=st.status==='sample'?'Sample numbers: this level’s live source can’t be reached from here. On the public site these are real counts.':
-    st.status==='loading'?'Loading the latest counts…':`Live pace estimate from the last ${rate?rate.n:0} full days · measured so far today: ${t&&t.ai!=null?fmt(t.ai):'not published yet'} · checked ${st.checked?st.checked.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'—'}`;
+    st.status==='loading'?'Loading the latest counts…':`Live pace estimate from the last ${rate?rate.n:0} full days · ${state.src==='sky'?'sampled estimate so far today':'measured so far today'}: ${t&&t.ai!=null?fmt(t.ai):'not published yet'} · checked ${st.checked?st.checked.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}):'—'}`;
   buildWorld();paintInspect();
   $('#facts').innerHTML=facts().map(f=>`<li>${f.replace(/</g,'&lt;')}</li>`).join('');
   $('#tbody').innerHTML=series(state.src,30).slice().reverse().map(d=>`<tr><td>${d.label}${d.today?' (today)':''}</td><td>${fmt(d.ai)}</td><td>${fmt(d.si)}</td><td>${ratioTxt(d.ai,d.si)}</td></tr>`).join('');
@@ -580,7 +571,7 @@ function spark(vals){const v=vals.map(x=>x??0);const m=Math.max(1,...v);const n=
 function cards(){$('#cards').innerHTML=Object.keys(SRC).map(k=>{const s=series(k,14),st=store[k];const last=s.filter(d=>d.ai!=null).at(-1)||{};
   return `<button type="button" class="card" data-src="${k}" aria-pressed="${k===state.src}">
   <div class="card-top"><span class="world">WORLD ${SRC[k].n}</span><span class="badge">${st.status==='live'?'Live':st.status==='sample'?'Sample':'…'}</span></div>
-  <h3>${SRC[k].full}</h3><span class="muted">${SRC[k].geo?'World or USA':'Global only'} · latest ${last.key?(last.today?'today':last.label):'—'}</span>
+  <h3>${SRC[k].full}</h3><span class="muted">${SRC[k].geo?'All or English':'All languages'} · latest ${last.key?(last.today?'today':last.label):'—'}</span>
   <div class="pair"><div><span class="muted">AI</span><b class="num">${compact(last.ai)}</b></div><div><span class="muted">SI</span><b class="num">${compact(last.si)}</b></div></div>
   <svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><polyline points="${spark(s.map(d=>d.ai))}" fill="none" stroke="currentColor" stroke-width="2.5" vector-effect="non-scaling-stroke"/><polyline points="${spark(s.map(d=>d.si))}" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/></svg>
   </button>`}).join('');
@@ -641,8 +632,8 @@ readColors();syncUI();
 window.addEventListener('resize',()=>{resize()});
 (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{resize();refresh()});
 resize();refresh();requestAnimationFrame(frame);
-loadNews();loadWiki();loadHN(false);liveSet(LIVE.on);
-setInterval(()=>loadHN(true),60000);setInterval(loadNews,10*60000);setInterval(loadWiki,60*60000);
+loadSky();loadWiki();loadHN(false);liveSet(LIVE.on);
+setInterval(()=>loadHN(true),60000);setInterval(loadSky,10*60000);setInterval(loadWiki,60*60000);
 setInterval(()=>{if(series().at(-1)?.key!==world.days.at(-1)?.key)refresh()},30000);
 })();
 </script>

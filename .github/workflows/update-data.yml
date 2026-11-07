@@ -1,11 +1,11 @@
 name: Publish AI Mountain Man
-# Free on public repos: refreshes the news counts every 30 minutes and redeploys Pages.
-# Nothing is committed back to the repo; history is carried forward from the live site.
+# Free on public repos. Every hour: listen to Bluesky's public Jetstream feed for 30 minutes,
+# add the counts to the published history, and redeploy GitHub Pages. Nothing is committed.
 on:
   push:
     branches: [main]
   schedule:
-    - cron: '7,37 * * * *'
+    - cron: '23 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 50
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -30,10 +30,17 @@ jobs:
       - name: Carry forward published history
         run: |
           mkdir -p data
-          curl -fsSL "${{ steps.pages.outputs.base_url }}/data/gdelt.json" -o data/gdelt.json || rm -f data/gdelt.json
-      - name: Fetch GDELT news counts (world + US)
+          curl -fsSL "${{ steps.pages.outputs.base_url }}/data/bluesky.json" -o data/bluesky.json || rm -f data/bluesky.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install websockets==13.1
+      - name: Sample Bluesky Jetstream
         continue-on-error: true
-        run: python3 fetch_gdelt.py
+        env:
+          # 30 minutes on the hourly schedule; a quick 2-minute sample on pushes and manual runs
+          SAMPLE_SECONDS: ${{ github.event_name == 'schedule' && '1800' || '120' }}
+        run: python sample_bluesky.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
