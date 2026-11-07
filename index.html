@@ -185,10 +185,10 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;paddin
 
   <section class="hero">
     <div>
-      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 2-1 · Bluesky posts</span></div>
-      <p class="sentence" id="sentence">Today, “artificial intelligence” has been written in about</p>
+      <div class="kicker"><span class="live lbl"><i></i><span id="liveTag">Live</span></span><span class="lbl" id="levelTag">World 1-1 · Wikipedia lookups</span></div>
+      <p class="sentence" id="sentence">Today, the English Wikipedia page on “artificial intelligence” has been opened about</p>
       <span class="ticker num" id="ticker" aria-label="AI count today">0</span>
-      <p class="sentence" id="sentence2">times on Bluesky, in every language.</p>
+      <p class="sentence" id="sentence2">times by people around the world.</p>
       <p class="sub" id="tickerNote" style="margin-top:12px">Loading the latest counts…</p>
     </div>
     <div class="duel" aria-label="Artificial intelligence versus superintelligence today">
@@ -310,7 +310,7 @@ const SRC={
   sky:{n:'2',name:'Bluesky',full:'Bluesky posts',geo:true,unit:'posts'},
   hn:{n:'3',name:'Hacker News',full:'Hacker News talk',geo:false,unit:'posts & comments'}
 };
-const state={src:'sky',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
+const state={src:'wiki',region:'world',range:14,scale:'linear',speed:1,playing:!reduce,sound:false,pin:null};
 (function readHash(){const p=(location.hash||'').slice(1).split('-');if(SRC[p[0]])state.src=p[0];if(p[1]==='en'||p[1]==='world')state.region=p[1];if(['7','14','30'].includes(p[2]))state.range=+p[2];if(p[3]==='log'||p[3]==='linear')state.scale=p[3]})();
 const store={};for(const s in SRC)store[s]={status:'loading',checked:null,series:{world:{},en:{}},note:''};
 
